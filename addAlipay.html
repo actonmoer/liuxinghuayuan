@@ -1,0 +1,458 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		/* 布局 */
+		.flex-row {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.flex-row-center {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.flex-row-reverse {
+			display: flex;
+			flex-direction: row-reverse;
+			align-items: center;
+		}
+
+		.flex-row-between {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.flex-row-around {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+		}
+
+		.flex-row-wrap {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.flex-column {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.flex-column-center {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.flex-vertical-centering {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 宽 */
+		.w10 {
+			width: 10%;
+		}
+
+		.w20 {
+			width: 20%;
+		}
+
+		.w30 {
+			width: 30%;
+		}
+
+		.w35 {
+			width: 35%;
+		}
+
+		.w40 {
+			width: 40%;
+		}
+
+		.w50 {
+			width: 50%;
+		}
+
+		.w60 {
+			width: 60%;
+		}
+
+		.w70 {
+			width: 70%;
+		}
+
+		.w80 {
+			width: 80%;
+		}
+
+		.w90 {
+			width: 90%;
+		}
+
+		.w100 {
+			width: 100%;
+		}
+
+		/*间距*/
+		.mt5 {
+			margin-top: 5px;
+		}
+
+		.mt8 {
+			margin-top: 8px;
+		}
+
+		.mt10 {
+			margin-top: 10px;
+		}
+
+		.mt15 {
+			margin-top: 15px;
+		}
+
+		.mt20 {
+			margin-top: 20px;
+		}
+
+		.mt25 {
+			margin-top: 25px;
+		}
+
+		.mt30 {
+			margin-top: 30px;
+		}
+
+		.mt40 {
+			margin-top: 40px;
+		}
+
+		.mt50 {
+			margin-top: 50px;
+		}
+
+		.mt60 {
+			margin-top: 60px;
+		}
+
+		.ml10 {
+			margin-left: 10px;
+		}
+
+		/*字体颜色*/
+		.colorWhite {
+			color: white;
+		}
+
+		input {
+			border: none;
+			outline: none;
+			background-color: rgba(255, 255, 255, 0);
+		}
+
+		.mui-bar {
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			background: #48C9A7;
+		}
+
+		#head {
+			background-color: #1069A4;
+			color: white;
+		}
+
+		#head a {
+			color: white;
+		}
+
+		#head h1 {
+			color: white;
+		}
+
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.mainbg {
+			background-color: white;
+			margin-top: 54px;
+		}
+
+		.main {
+			width: 92%;
+			margin-left: 4%;
+			font-size: 14px;
+		}
+
+		.main input {
+			width: 40%;
+		}
+
+		.main div:last-child {
+			border: none;
+		}
+
+		.line {
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+
+		.ewmBox {
+			background-color: white;
+			padding: 20px;
+		}
+
+		.ewmBox>img {
+			width: 40%;
+		}
+
+		.determine {
+			width: 92%;
+			margin-left: 4%;
+			margin-top: 30px;
+			color: white;
+			background-color: #1069A4;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 5px;
+		}
+
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="alipay" v-cloak>
+		<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>添加支付宝</span>
+				<span></span>
+			</header>-->
+		<header class="mui-bar mui-bar-nav" id="head">
+			<a href="gathering.html" class=" mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加支付宝</h1>
+		</header>
+		<div class="w100 mainbg">
+			<div class="main flex-column">
+				<div class="line w100 flex-row-center">
+					<span class="w20">标签：</span>
+					<input class="" v-model="label" placeholder="请输入标示标签" />
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w20">姓名：</span>
+					<input class="" v-model="userName" placeholder="请输入姓名" />
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w20">账号：</span>
+					<input class="" v-model="account" placeholder="请输入账号" />
+				</div>
+			</div>
+		</div>
+		<div class="mt10 ewmBox flex-vertical-centering">
+			<img :src='QRimg' id="QRCode" onclick="browerfile.click()" />
+			<input type="file" style="display:none;" id="browerfile" @change="uploadFile" />
+			<span class="mt30">点击上传二维码</span>
+			<img src="" id="test" />
+		</div>
+		<div class="determine" @click='addAlipay'>确定</div>
+	</div>
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script type="text/javascript">
+
+	mui.init({
+		beforeback: function() {
+	　　　　 //获得父页面的webview
+	    //    var list = plus.webview.currentWebview().opener();
+	　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+	      //  mui.fire(list, 'refresh');
+	        //返回true,继续页面关闭逻辑
+            location.href="gathering.html";
+	        return true;
+	    }
+	});
+
+	new Vue({
+		el: '#alipay',
+		data: {
+			token: get('token'),
+			label: '', //标签
+			userName: '', //姓名
+			account: '', //账号
+			QRimg: './img/sahngchuang@2x.png', //图片地址
+			imgUrl: '' //图片base64
+		},
+		watch: {
+
+		},
+		methods: {
+			uploadFile(e) {
+				// mui.showLoading("正在压缩图片","div");
+				var that = this;
+				var dom = document.getElementById('browerfile');
+				var files = dom.files;
+				if (files.length != 0) {
+					var objUrl = this.getObjectURL(files[0]);
+					if (objUrl) {
+						that.QRimg = objUrl
+					}
+					var file = e.target.files[0];
+					var reader = new FileReader();
+					reader.readAsDataURL(file); // 读出 base64
+					reader.onloadend = function () {
+						// 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+						// 下面逻辑处理
+						that.convert(reader.result);
+					};
+				}
+			},
+			getObjectURL(file) {
+				var url = null;
+				if (window.createObjectURL != undefined) {
+					url = window.createObjectURL(file); //basic
+				} else if (window.URL != undefined) {
+					url = window.URL.createObjectURL(file);
+				} else if (window.webkitURL != undefined) {
+					url = window.webkitURL.createObjectURL(file);
+				}
+				return url;
+			},
+			addAlipay() {
+				var that = this;
+				//	this.getImgSize(that.imgUrl);
+				if (that.label.length == 0) {
+					mui.toast('请输入标签！');
+					return false;
+				}
+				if (that.userName.length == 0) {
+					mui.toast('请输入用户名！');
+					return false;
+				}
+				if (that.account.length == 0) {
+					mui.toast('请输入账号！');
+					return false;
+				}
+				if (that.imgUrl.length == 0) {
+					mui.toast('请上传图片！');
+					return false;
+				}
+
+				$.ajax({
+					url: apqurl + '/api/user/addAlipay',
+					type: 'POST',
+					data: {
+						accessToken: that.token,
+						realName: that.userName,
+						account: that.account,
+						paymentCode: that.imgUrl,
+						remark: that.label
+					},
+					success: function (dat) {
+						console.log(dat)
+						if (dat.success) {
+							mui.toast(dat.message);
+							setTimeout(function () {
+								// mui.openWindow({
+								// 	url: "./gathering.html",
+								// 	id: 'gathering'
+								// }).
+								// mui.back();
+								// Jump('gathering');
+								location.href="gathering.html";
+								// plus.webview.currentWebview().hide();
+								// plus.webview.currentWebview().close();
+							}, 1000);
+						} else {
+							mui.toast(dat.message);
+						}
+
+					}
+				})
+				
+			},
+			//处理图片
+			convert(img64) {
+				var that = this;
+				this.compress(img64, 400, 0.5).then(function (val) {
+					//          console.log("2:"+val);
+					//			            that.getImgSize(val);//判断base64图片流大小
+					//			            that.compressImg = val;
+					that.imgUrl = val;
+					// mui.hideLoading();
+				});
+			},
+			compress(base64String, w, quality) {
+				var getMimeType = function (urlData) {
+					var arr = urlData.split(',');
+					var mime = arr[0].match(/:(.*?);/)[1];
+					// return mime.replace("image/", "");
+					return mime;
+				};
+				var newImage = new Image();
+				var imgWidth, imgHeight;
+
+				var promise = new Promise(resolve => newImage.onload = resolve);
+				newImage.src = base64String;
+				return promise.then(() => {
+					imgWidth = newImage.width;
+					imgHeight = newImage.height;
+					var canvas = document.createElement("canvas");
+					var ctx = canvas.getContext("2d");
+					if (Math.max(imgWidth, imgHeight) > w) {
+						if (imgWidth > imgHeight) {
+							canvas.width = w;
+							canvas.height = w * imgHeight / imgWidth;
+						} else {
+							canvas.height = w;
+							canvas.width = w * imgWidth / imgHeight;
+						}
+					} else {
+						canvas.width = imgWidth;
+						canvas.height = imgHeight;
+					}
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					ctx.drawImage(newImage, 0, 0, canvas.width, canvas.height);
+					var base64 = canvas.toDataURL(getMimeType(base64String), quality);
+					//				        console.log(base64);
+					return base64;
+				});
+			},
+			getImgSize(str) {
+				//获取base64图片大小，返回KB数字
+				//这里根据自己上传图片的格式进行相应修改
+				var strLength = str.length;
+				var fileLength = parseInt(strLength - (strLength / 8) * 2);
+				// 由字节转换为KB
+				var size = "";
+				size = (fileLength / 1024).toFixed(2);
+				console.log(size);
+			}
+		}
+	})
+</script>
+
+</html>

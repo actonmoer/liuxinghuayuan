@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <title>注册</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            background: #F5F5F5;
+        }
+        .mui-bar{
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            background: #1069A4;
+        }
+        .mui-bar a,
+        .mui-bar h1{
+            color: #fff;
+        }
+        img{
+            width: 100%;
+            border-radius: 5px;
+        }
+        .mui-content{
+            padding-top: 60px !important;
+            background: #fff;
+        }
+        .logo{
+            width: 25%;
+            margin: auto;
+            border-radius: 5px;
+        }
+        .content{
+            width: 90%;
+            margin: auto;
+        }
+        .msg{
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            border-bottom: 1px solid #F2F2F2;
+        }
+        .msg input{
+            margin-bottom: 0 !important;
+            border:none;
+            padding: 0;
+        }
+        .tit{
+            width: 30%;
+            font-size: 12px;
+        }
+        .code{
+            width: 30%;
+        }
+        .code>button{
+            background: #1069A4;
+            color: #fff;
+            border:none;
+        }
+        .btn{
+            padding-top: 20px;
+            width: 100%;
+            margin: 20px auto;
+            background: #F5F5F5;
+            text-align: center;
+        }
+        .btn>button{
+            width: 80%;
+            background: #1069A4;
+            color: #fff;
+            border:none;
+            line-height: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav" id="head">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">注册</h1>
+    </header>
+    <div class="mui-content" id="register" v-cloak>
+        <div class="logo">
+            <img :src= 'imgUrl' />
+        </div>
+        <div class="content">
+            <!-- <div class="msg">
+                <div class="tit">
+                    会员编号：
+                </div>
+                <div>
+                    <input type="text" v-model="identifier" />
+                </div>
+            </div> -->
+            <div class="msg">
+                <div class="tit">
+                    真实姓名：
+                </div>
+                <div>
+                    <input type="text" v-model="userName" />
+                </div>
+            </div>
+            <!-- <div class="msg">
+                <div class="tit">
+                    证件号码：
+                </div>
+                <div>
+                    <input type="text" v-model="IDNum" />
+                </div>
+            </div> -->
+            <div class="msg">
+                <div class="tit">
+                    移动电话：
+                </div>
+                <div>
+                    <input type="number" v-model="photoNum" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit" style="width:45%;">
+                    验证码：
+                </div>
+                <div>
+                    <input type="number" v-model="shortNum" />
+                </div>
+                <div class="code">
+                    <button class="getVCode" @tap="getVerificationCode">获取验证码</button>
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    推荐人编号：
+                </div>
+                <div>
+                    <input type="text" v-model="recomId" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    登录密码：
+                </div>
+                <div>
+                    <input type="password" v-model="userPwd" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    登录密码确认：
+                </div>
+                <div>
+                    <input type="password" v-model="repeatPwd" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    支付密码：
+                </div>
+                <div>
+                    <input type="password" v-model="payPwd" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    确认支付密码：
+                </div>
+                <div>
+                    <input type="password" v-model="repeatPayPwd" />
+                </div>
+            </div>
+        </div>
+        <div class="btn">
+            <button @tap="register">确定</button>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script>
+    var countdown = 60;
+    var phoneVerification = /^1[3456789]\d{9}$/;
+    new Vue({
+        el:'#register',
+        data:{
+            imgUrl:'./img/logo.png',
+            identifier:'CN-4405', //会员编号
+            userName:'',//真实姓名
+            IDNum:'',//证件号码
+            photoNum:'',//移动电话
+            shortNum:'',//短信验证码
+            recomId:'',//推荐人编号
+            userPwd:'',//登录密码
+            repeatPwd:'',//确认登录密码
+            payPwd: '',//支付密码
+            repeatPayPwd:''//确认支付密码
+        },
+        beforeCreate:function(){
+            var that = this;
+            var id = getUrlParam('code');
+            console.log(id);
+            if(id != null){
+                that.recomId = id;
+            }
+        },
+        methods:{
+            register:function(){
+                var that = this;
+                if(that.identifier.length == 0){
+                    mui.toast('请输入会员编号!');
+                    return false;
+                }
+                if(that.userName.length == 0){
+                    mui.toast('请输入真实姓名!');
+                    return false;
+                }
+                if(that.photoNum.length == 0){
+                    mui.toast('请输入移动电话号码!');
+                    return false;
+                }
+                if(!(phoneVerification.test(that.photoNum))){
+                    mui.toast('手机号码输入有误');
+                    return false;
+                }
+                if(that.shortNum.length == 0){
+                    mui.toast('请输入短信验证码!');
+                    return false;
+                }
+                if(that.recomId.length == 0){
+                    mui.toast('请输入推荐人编号!');
+                    return false;
+                }
+                if(that.userPwd.length == 0){
+                    mui.toast('请输入登录密码!');
+                    return false;
+                }
+                if(that.repeatPwd.length == 0){
+                    mui.toast('请确认登录密码!');
+                    return false;
+                }
+                if(that.userPwd != that.repeatPwd){
+                    mui.toast('登录密码输入不一致');
+                    return false;
+                }
+                if(that.payPwd.length == 0){
+                    mui.toast('请输入支付密码!');
+                    return false;
+                }
+                if(that.repeatPayPwd.length == 0){
+                    mui.toast('请确认支付密码!');
+                    return false;
+                }
+                if(that.repeatPayPwd != that.payPwd){
+                    mui.toast('支付密码输入不一致');
+                    return false;
+                }
+                axios({
+                    url:apqurl+'/api/comm/register',
+                    method:'POST',
+                    params:{
+                        realName:that.userName,
+                        phone:that.photoNum,
+                        code:that.shortNum,
+                        referralCode:that.recomId,
+                        loginPwd:that.userPwd,
+                        payPwd:that.payPwd
+                    }
+                }).then(function(res){
+                    var data = res.data;
+					set('phone',that.photoNum);
+                    if(data.success){
+                        setTimeout(function(){
+                            Jump('index');
+                        },2000)
+                    }
+                    mui.toast(data.message)
+                }).catch(function(res){
+                    console.log(res);
+                })
+            },
+            getVerificationCode:function(){
+                var that = this;
+                if(that.photoNum.length == 0){
+                    mui.toast('请输入移动电话号码!');
+                    return false;
+                }
+                if(!(phoneVerification.test(that.photoNum))){
+                    mui.toast('手机号码输入有误');
+                    return false;
+                }
+                axios({ 
+                    url:apqurl+'/api/comm/sms',
+                    method:'POST',
+                    params:{
+                        phone: that.photoNum,
+                        type: 2
+                    }
+                }).then(function(res){
+                    var data = res.data;
+                    mui.toast(data.message)
+                    console.log(res);
+                    if(data.success){
+                        that.settime();
+                    }
+                }).catch(function(res){
+                    console.log(res);
+                })
+            },
+
+            settime() {
+                var that = this;
+                if(countdown == 0) {
+                    $('.getVCode').attr("disabled",false);
+                    $('.getVCode').text("重新获取");
+                    countdown = 60;
+                    return false;
+                } else {
+                    $('.getVCode').attr("disabled", true);
+                    $('.getVCode').text("重新获取(" + countdown + ")");
+                    countdown--;
+                }
+                setTimeout(function() {
+                    that.settime();
+                }, 1000);
+            }
+        }
+    })
+</script>
+</html>

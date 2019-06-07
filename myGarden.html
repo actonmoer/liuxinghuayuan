@@ -1,0 +1,737 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/nav.css"/>
+	</head>
+	<style type="text/css">
+		*{padding: 0;margin: 0;}
+		.mui-bar{
+			background: #045895 !important; 
+		}
+		.mui-title{
+			color: #fff;
+		}
+		.fertilizer{
+			text-align: center;
+			padding: 10px;
+			font-size: 15px;
+			background: #fff;
+			width: 100vw;
+			position: absolute;
+			top: 0%;
+		}
+		.yellowF{
+			color: #ffa145;
+		}
+		.content{
+			background: url('img/beijing@2x.png') no-repeat;
+			background-size: 100% 100%;
+			width: 100vw;
+			height: 93vh;
+			position: relative;
+		}
+		.menu{
+			display: flex;
+			padding: 10px;
+			position: absolute;
+			width: 100vw;
+			top: 7%;
+			z-index: 99;
+		}
+		.menu>div{
+			width: 20%;
+			/* margin: 10px; */
+			position: relative;
+			color: #fff;
+			height:2rem;
+			line-height: 1.9rem;
+			font-size: 13px;
+			background:url('img/Highlight2@2x.png') no-repeat ;
+			background-size: 100% 100%;
+			text-align: center;
+		}
+		div.active{
+			height: 2.3rem;
+			line-height: 2.2rem;
+		}
+		.land{
+		
+			position: absolute;
+			width: 100vw;
+			top: 50%;
+			margin-top: -84vw;
+		}
+		.land>div.land1>img.landImg{
+			width: 100%;
+		}
+		.land>div{
+			position: absolute;
+			width: 24vw;
+			transform: rotate(-6deg);
+		}
+		.hua1{
+			position: absolute;
+			top:-50%;
+			left: 24%;
+			width: 3rem;
+			height: 3.5rem;
+		}
+		.land1:first-child{
+			top: 44vw;
+			left: 27%;
+		}
+		.land1:nth-child(2){
+			top: 57vw;
+			left: 12%;
+		}
+		.land1:nth-child(3){
+			top: 52vw;
+			left: 45%;
+		}
+		.land1:nth-child(4){
+			top: 65vw;
+			left: 30%;
+		}
+		.land1:nth-child(5){
+			top: 60vw;
+			left: 63%;
+		}
+		.land1:nth-child(6){
+			top: 73vw;
+			left: 48%;
+		}
+		.landImg{
+			height: 3.5rem;
+		}
+		.record{
+			position: absolute;
+			width: 100vw;
+			top: 56%;
+		}
+		.record-title{
+			text-align: center;
+			color: #fff;
+			font-size: 14px;
+		}
+		.record-list{
+			padding: 10px;
+			height: 32vh;
+			overflow: auto;
+			margin-bottom: 4rem;
+		}
+		.fList{
+			height: 50vh;
+			overflow: auto;
+		}
+		.list-item{
+			list-style: none;
+			border-radius: 10px;
+			padding: 10px;
+			position: relative;
+			background: #fff;
+			overflow: hidden;
+			margin-bottom: 5px;
+		}
+		.list-flex{
+			display: flex;
+		}
+		.list-flex>div.left{
+			width: 20%;
+			text-align: center;
+			margin-right: 5px;
+		}
+		.list-flex>div.right{
+			width: 75%;
+		}
+		.list-img{
+			margin-top: 12px;
+			width: 80%;
+			height: 80%;
+			vertical-align: middle;
+		}
+		.blueFont{
+			color: #3cc19f;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		p {
+			font-size: 14px;
+			margin-top: 0;
+			margin-bottom: 0;
+			color: #000;
+			white-space: nowrap;
+		}
+		.yellowBtn{
+			position: absolute;
+			right: 0;
+			top: 0;
+			border-bottom-left-radius: 5px;
+			background: #f3b149;
+			text-align: center;
+			padding: 3px 10px;
+			color: #fff;
+			font-size: 12px;
+			letter-spacing: 1px;
+		}
+		.mui-progressbar {
+			position: relative;
+			display: inline-block;
+			overflow: hidden;
+			width: 50%;
+			height: 3px;
+			-webkit-transform-origin: center top;
+			transform-origin: center top;
+			vertical-align: middle;
+			border-radius: 2px;
+			background: #9adbbc;
+			-webkit-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+		}
+		.mui-progressbar span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			-webkit-transition: 150ms;
+			transition: 150ms;
+			-webkit-transform: translate3d(-100%, 0, 0);
+			transform: translate3d(-100%, 0, 0);
+			background: #fcae34;
+		}
+		.wateringBox{
+			position: fixed;
+			background: rgba(0,0,0,.4);
+			top: 0;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			z-index: 10000;
+		}
+		.waterMsg{
+			border-radius: 10px;
+			background: #fff;
+			padding-top: 10px;
+			width: 80%;
+			margin: 8rem auto;
+			text-align: center;
+		}
+		.waterMsg>img{
+			width: 6rem;
+		}
+		.btnArr{
+			display: flex;
+			border-top: 1px solid #eee;
+			color: #999;
+			font-size: 14px;
+		}
+		.btnArr span{
+			display: inline-block;
+			padding: 10px;
+			width: 50%;
+		}
+		span.sure{
+			color: #5faaff;
+			border-left: 1px solid #eee;
+		}
+		.waterSuccess{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 10000;
+			background: rgba(0,0,0,0.4);
+		}
+		.waterSuccess>div{
+			width: 80%;
+			margin: 10rem auto;
+			border-radius: 10px;
+			padding: 10px;
+			line-height: 4rem;
+			background: #fff;
+			text-align: center;
+			font-size: 14px;
+		}
+		.choiceF{
+			position: fixed;
+			z-index: 10000;
+			top: 0;
+			left: 0;
+			background: rgba(0,0,0,.4);
+			width: 100%;
+			height: 100%;
+		}
+		.flowerBox{
+			width: 85%;
+			margin: 8rem auto;
+			border-radius: 10px;
+			background: #fff;
+			text-align: center;
+			padding: 20px;
+			position: relative;
+		}
+		.closeImg{
+			position: absolute;
+			top:-10px;
+			right: -10px;
+		}
+		li{
+			list-style: none;
+		}
+		.activeImg{
+			width: 1rem;
+			vertical-align: middle;
+			float: left;
+			margin-left: 10px;
+			margin-top: 17px;
+		}
+		.flowerBox ul li{
+			line-height: 3rem;
+			width: 72%;
+			text-align: center;
+			border-bottom: 1px solid #eee;
+			margin: 0 auto;
+			clear: left;
+		}
+		.fBtn{
+			width: 60%;
+			border-radius: 5px;
+			color: #fff;
+			text-align: center;
+			padding: 10px;
+			background: #1069a4;
+			margin: 0 auto;
+			margin-top: 10px;
+		}
+		.waterS{
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background: rgba(0,0,0,.4);
+			z-index: 10000;
+		}
+		.waterS>div{
+			background: #fff;
+			border-radius: 10px;
+			width: 80%;
+			margin: 10rem auto;
+			padding: 25px;
+			font-size: 14px;
+			text-align: center;
+		}
+		.sureBtn{
+			width: 60%;
+			border-radius: 5px;
+			color: #fff;
+			text-align: center;
+			padding: 10px;
+			background: #1069a4;
+			margin: 0 auto;
+			margin-top: 20px;
+		}
+	    .waterImg{
+			position: absolute;
+			width: 5rem;
+			top: -85%;
+			left: 50%;
+		}
+	  
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我的花园</h1>
+		</header>
+		
+		<div class="mui-content" id="garden" v-cloak>
+			<div class="mui-loading" v-if="loading">
+				<div class="mui-spinner">
+				</div>
+			</div>
+			<div class="content">
+				<div class="fertilizer">
+					肥料：<span class="yellowF">{{fertilizerAmount.toFixed(2)}}</span>
+				</div>
+				<div class="menu">
+					<div :class="{active:active[key]}"  @click="tap(key,item.ID)" v-for="(item,key) in menulist">
+						<span>{{item.landName}}</span>
+					</div>
+					
+				</div>
+				<div class="land">
+					<div class="land1" @click="growF(item.isGrow,item.gardenLandNo,item.gardenLandID)" v-for="(item,key) in landList">
+						<img src="img/tudi@2x.png" class="landImg">
+						<img :src="item.image" alt="" class="hua1">
+						<img src="img/watering.gif" class="waterImg" v-show="waterActive[key]">
+					</div>
+				</div>
+				<div class="record">
+					<div class="record-title">
+						<span>花苗记录</span>
+					</div>
+					<div class="record-list">
+						<ul class="list">
+							<li class="list-item" v-for="(item,index) in flowList">
+								<p><span class="blueFont">{{item.name}}</span>（赋能消耗{{item.bookingConsume}}）</p>
+								<div class="list-flex">
+									<div class="left">
+										<img :src="item.image"  class="list-img">
+									</div>
+									<div class="right">
+										<p class="progressP">
+											成本：
+											<span class="mui-progressbar cost" progress="progress">
+												<span style="background: #48dcb1;"></span>
+											</span>
+											{{item.cost.toFixed(2)}}
+										</p>
+										<p>
+											赋能：
+											<span class="mui-progressbar empowerment" >
+												<span :style="{'transform': 'translate3d(-'+item.Eprogress+'%, 0, 0)'}"></span>
+											</span>
+											{{item.wateringCount}}/{{item.needWateringCount}}
+										</p>
+										<p>
+											收益：
+											<span class="mui-progressbar profit" >
+												<span :style="{'transform': 'translate3d(-'+item.Pprogress+'%, 0, 0)'}"></span>
+											</span>
+											{{item.canProfit}}%/{{item.totalCanProfit}}%
+										</p>
+										<p>
+											花期：
+											<span class="mui-progressbar flowerTime" >
+												<span :style="{'transform': 'translate3d(-'+item.Fprogress+'%, 0, 0)'}"></span>
+											</span>
+											{{item.alreadyDurationCount}}/{{item.durationCount}}
+										</p>
+									</div>
+								</div>
+								
+								<div class="yellowBtn">成长中</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="wateringBox" v-show="waterBol">
+				<div class="waterMsg">
+					<p>浇水需消耗肥料</p>
+					<p>您确定要给土地{{landNo}}浇水吗？</p>
+					<img src="img/water.png" >
+					<div class="btnArr">
+						<span class="cancle" @click="cancel">取消</span>
+						<span class="sure" @click="waterY">确定</span>
+					</div>
+				</div>
+			</div>
+			<div class="waterSuccess" v-show="successBol">
+				<div>
+					<span>{{successTitle}}</span>
+				</div>
+			</div>
+			<div class="waterS" v-show="sBol">
+				<div>
+					<span>今日已经浇水</span>
+					<div class="sureBtn" @click="successB">确定</div>
+				</div>
+			</div>
+			<div class="choiceF" v-show="choiceBol">
+				<div class="flowerBox">
+					<p>选择要种植在土地{{landNo}}上的花苗</p>
+					<ul class="fList">
+						<li @click="choiceSack(key,item.id)" v-for="(item,key) in sackList">
+							<img src="img/weixuaz@2x.png"  class="activeImg">
+							<span>{{item.name}}</span>
+						</li>
+					</ul>
+					<div class="fBtn" @click="choiceFlower">确定</div>
+					<img src="img/close.png" class="closeImg" @click="closeBox">
+				</div>
+			</div>
+			<nav class="nav">
+			    <div class="nav-item"  @click="toHome">
+			        <div><img src="img/shichang2@2x.png" /></div>
+			        <div>市场</div>
+			    </div>
+			    <div class="nav-item" style="color: #1069a4" @click="wodehuayuan">
+			        <div><img src="img/hua2@2x.png" /></div>
+			        <div>我的花园</div>
+			    </div>
+			    <div class="nav-item"  @click="toUser">
+			        <div><img src="img/wode@2x.png" /></div>
+			        <div>个人中心</div>
+			    </div>
+			</nav>
+		</div>
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.js"></script>
+		<script src="js/layIn.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+				el:'#garden',
+				data:{
+					loading:false,
+					landI:1,            //花园id 
+					menulist:[],
+					active: [true, false, false,false,false],//统一管理状态;
+					waterActive:[false,false,false,false,false,false],
+					apqurl:'',        //请求地址头
+					progress:100,    //成本
+					Eprogress:66,      //赋能
+					Pprogress:67,      //收益
+					Fprogress:48.6,      //花期  
+					waterBol:false,      //浇水
+					successBol:false,    //浇水成功
+					successTitle:'',
+					choiceBol:false,      //种植花苗
+					sBol:false,            //是否已浇水
+					flowList:[],          //花苗列表
+					token:'',
+					fertilizerAmount:0,        //肥料
+					sackList:[],            //背包花苗列表
+					landList:[],          //土地列表
+					landNo:1,               //土地编号
+					gardenLandId:0,             //土地id   
+					flowerId:1,                 //花苗id
+					keyBol:false
+				},
+				created() {
+					mui('.cost').progressbar({progress:this.progress}).show();	
+					this.token = localStorage.getItem('token')
+					this.grow()
+					this.getUser()
+				},
+//				mounted(){
+//					mui.plusReady(function(){
+//						plus.webview.currentWebview().opener().hide();
+//						plus.webview.currentWebview().opener().close();
+//						// var wvs = plus.webview.all();
+//						// console.log(wvs.length);
+//					})
+//              },
+				methods:{
+					toHome(){
+//						mui.openWindow({
+//							url:'./home.html',
+//							id:'home'
+//						})
+						location.href="home.html";
+					},
+					toUser(){
+//						mui.openWindow({
+//							url:'./user.html',
+//							id:'user'
+//						})
+						location.href="user.html";
+					},
+					cancel(){
+						this.waterBol = false;
+					},
+					waterY(){
+						var that =this;
+						console.log(that.gardenLandId)
+						that.watering(that.gardenLandId)
+					},
+					closeBox(){
+						this.choiceBol = false;
+					},
+					//刷新页面
+					wodehuayuan(){
+						this.grow();
+						this.getUser();
+					},
+					//种花
+					growF(isGrow,landNo,landId){
+						var that = this;
+						if(isGrow){
+							that.waterBol = true;
+						}else{
+							that.choiceBol = true;
+							mui.ajax({
+								type:'get',
+								url:apqurl+'/api/product/getKnapsackList',
+								data:{
+									accessToken:that.token
+								},
+								success:function(res){
+									console.log(res)
+									that.sackList = res.data;
+								},
+								error:function(err){
+									console.log(err)
+								}
+							})
+							
+						}
+						that.landNo = landNo;
+						that.gardenLandId = landId;
+						console.log(landId)
+					},
+					choiceSack(e,id){
+						var that = this;
+						that.flowerId = id;
+						var _li = $('.fList>li');
+						var img = $('.fList>li>img.activeImg')
+						for(var i = 0;i<_li.length;i++){
+							img.attr('src','./img/weixuaz@2x.png')
+						}
+						img[e].setAttribute('src','./img/xuanzhong@2x.png')
+					},
+					choiceFlower(){
+						console.log(this.flowerId)
+						console.log(this.gardenLandId)
+						///种植
+						this.flowerGrow(this.flowerId,this.gardenLandId)
+					},
+					tap(e,id){
+						for(var i=0;i<this.active.length;i++){
+							this.active[i]=false;
+							this.active[e]=true;
+						}
+						// console.log(this.active);
+						this.$set(this.active, 5, 0);
+						this.land(id)
+						this.landI = id;
+					},
+					successB(){
+						this.sBol = false;
+					},
+					//花园列表
+					grow(){
+						var that = this;
+						axios.get(apqurl+'/api/product/growList',{
+							params:{
+								accessToken: that.token
+							}
+						})
+						.then(function(res){
+							console.log(res)
+							that.menulist = res.data.data
+							that.land(that.menulist[0].ID)
+							console.log(that.menulist)
+						})
+						.catch(function(err){
+							console.log(err)
+						})
+					},
+					//土地列表
+					land(id){
+						var that = this;
+						axios.get(apqurl+'/api/product/landList',{
+							params:{
+								accessToken: that.token,
+								gardenID:id
+							}
+						})
+						.then(function(res){
+							console.log('L:',res)
+							that.landList = res.data.data.growItems;
+							that.flowList = res.data.data.growDataItems;
+							for (var i = 0; i < that.flowList.length; i++) {
+								that.flowList[i].Eprogress =100- Math.round((that.flowList[i].wateringCount/that.flowList[i].needWateringCount)*100) ;
+								that.flowList[i].Pprogress =100- Math.round((that.flowList[i].canProfit/that.flowList[i].totalCanProfit)*100) ;
+								that.flowList[i].Fprogress =100- Math.round((that.flowList[i].alreadyDurationCount/that.flowList[i].durationCount)*100);
+							}
+						})
+						.catch(function(err){
+							console.log(err)
+						})
+					},
+					//鲜花浇水
+					watering(id){
+						var that = this;
+						mui.ajax({
+							url:apqurl+'/api/product/watering',
+							type:'post',
+							data:{
+								gardenLandID:id,
+								accessToken: that.token
+							},
+							success:function(res){
+								console.log(res)
+								that.waterBol = false;
+								if(res.success){
+									for(var i=0;i<that.waterActive.length;i++){
+										that.waterActive[i]=false;
+										that.waterActive[that.landNo-1]=true;
+									}
+									setTimeout(function(){
+										that.waterActive[that.landNo-1]=false;
+										that.successTitle = res.message;
+										that.successBol = true;
+									},2000)
+									setTimeout(function(){
+										that.successBol = false;
+										that.land(that.landI)
+									},3000)
+								}else{
+									that.sBol = true;
+								}
+							},
+							error:function(err){
+								console.log(err)
+							}
+						})
+					},
+					//鲜花种植
+					flowerGrow(sackId,landId){
+						var that = this;
+						mui.ajax({
+							url:apqurl+'/api/product/growFlower',
+							type:'post',
+							data:{
+								accessToken:that.token,
+								knapsackID:sackId,       //用户背包鲜花ID
+								gardenLandID:landId     //土地id
+							},
+							success:function(res){
+								console.log(res)
+								if(res.success){
+									that.choiceBol = false;
+									mui.toast(res.message)
+									setTimeout(function(){
+										that.land(that.landI)
+									},1000)
+								}else{
+									mui.toast(res.message)
+								}
+								
+							},
+							error:function(err){
+								console.log(err)
+							}
+						})
+					},
+					//用户信息
+					getUser(){
+						var that = this;
+						axios.get(apqurl+'/api/user/userInfo',{
+							params:{
+								accessToken: that.token
+							}
+						})
+						.then(function(res){
+							console.log('u:',res)
+							that.fertilizerAmount = res.data.data.fertilizerAmount;
+						})
+						.catch(function(err){
+							console.log(err)
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

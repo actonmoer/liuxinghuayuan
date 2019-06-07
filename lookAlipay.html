@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		.mui-bar{
+		 -webkit-box-shadow: none;
+		 box-shadow: none;
+		 background: #48C9A7;
+		}
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.mainbg{
+			background-color: white;
+			margin-top: 54px;
+		}
+		.main{
+			width: 92%;
+			margin-left: 4%;
+			font-size: 14px;
+		}
+		.main input{
+			width: 40%;
+		}
+		.main div:last-child{
+			border: none;
+		}
+		.line{
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.ewmBox{
+			background-color: white;
+			padding: 20px;
+		}
+		.ewmBox>img{
+			width: 40%;
+		}
+		.determine{
+			width: 92%;
+			margin-left: 4%;
+			margin-top: 30px;
+			color: white;
+			background-color: #1069A4;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 5px;
+		}
+		[v-cloak]{
+			display:none;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="alipay" v-cloak>
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">查看支付宝详情</h1>
+			</header>
+			<div class="w100 mainbg">
+				<div class="main flex-column">
+					<div class="line w100 flex-row-center">
+						<span class="w30">标签：</span>
+						<span >{{label}}</span>
+					</div>
+					<div class="line w100 flex-row-center">
+						<span class="w30">姓名：</span>
+						<span >{{userName}}</span>
+					</div>
+					<div class="line w100 flex-row-center">
+						<span class="w30">账号：</span>
+						<span >{{account}}</span>
+					</div>
+					<div class="line w100 flex-row-center">
+						<span class="w30">账户状态：</span>
+						<span >{{statuss[status]}}</span>
+					</div>
+					<div class="line w100 flex-row-center">
+						<span class="w30">创建时间：</span>
+						<span >{{addTime}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="mt10 ewmBox flex-vertical-centering">
+				<img :src='paymentCode'/>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery-1.11.2.min.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/layIn.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#alipay',
+			data:{
+				token:"",
+				label:'',//标签
+				userName:'',//姓名
+				account:'',//账号
+				paymentCode:'',//图片路径
+				addTime:'',//时间
+				status:'',//状态
+				statuss:['正常','关闭'],
+				// statuss:['关闭','正常'],
+				alipayID:'',//微信id
+			},
+			mounted() {
+				// 获取查看当前的id
+				var ids =getUrlParam('zfid');
+				this.alipayID=ids;
+				this.token = localStorage.getItem('token');
+				this.getLokeAlipay();
+			},
+			methods:{
+				//查看支付宝信息
+				getLokeAlipay(){
+                        var that=this;
+                        axios({
+                        url:apqurl+'/api/user/getAlipayInfo',
+                        method:'GET',
+                        params:{
+                            accessToken: this.token,
+							alipayID:this.alipayID
+                        }
+                        }).then(function(res){
+                            // console.log(res);
+							const{data} =res.data;
+							console.log(data)
+							that.label=data.Remark;
+							that.userName=data.RealName;
+							that.account=data.account;
+							that.status=data.status;
+							that.paymentCode=data.PaymentCode;
+							that.addTime=convertDate3(+data.AddTime);
+                        }).catch(function(res){
+                            console.log(res);
+                        })
+                    },
+			}
+		})
+	</script>
+
+</html>

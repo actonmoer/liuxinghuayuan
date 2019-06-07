@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/mui.min.css">
+    <title>兑换</title>
+    <style>
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .mui-bar {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        background: #0F69A4;
+        position:static;
+     
+    }
+  
+    .mui-title{
+        color:#f7f7f7;
+    }
+    .mui-icon-back{
+        
+        color:#f7f7f7;
+    }
+ 
+    .nav div span{
+        padding: 10px 0;
+    }
+    .selected{
+        color: #1069A4;
+        border-bottom: 3px solid #1069A4;
+    }
+    .mui-card-content .nurte{
+        margin-top: 12px;
+    }
+    .mui-table-view {
+        position: relative;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-left: 0;
+        list-style: none;
+        
+        background-color: #fff;
+        display:-webkit-flex;
+    }
+    .mui-table-view:after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 15px;
+        height: 1px;
+        content: '';
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        background-color: #c8c7cc;
+    }
+    .mui-table-view:before {
+        position: absolute;
+        right: 0;
+        left: 15px;
+        height: 1px;
+        content: '';
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        background-color: #c8c7cc;
+        top: -1px;
+    }
+   
+    
+    .btn-anlui .button-y{
+        text-align: center;
+        /* display:-webkit-flex;    */
+    }
+   
+    /* 字体颜色 */
+    .yeyr{
+        color: #0F69A4;
+    }
+    .yeyra{
+        color: #232323;
+    }
+    .mui-pull-right {
+        margin-left: 10px;
+        margin-right: 10px;
+        letter-spacing:2px;
+        font-size: 16px;
+        font-weight: 600;
+        
+    }
+    .mui-pull-left {
+        margin-left: 10px;
+        margin-right: 10px;
+        float: left;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing:2px;
+    }
+    .diuan{
+        width: 80%;
+        color: #fff;
+        border: 1px solid #1069A4;
+        background-color: #1069A4;
+        margin: 10%;
+        font-size: 20px;
+        transition-timing-function: linear;
+
+    }
+    /* 弹出 */
+    .exchange{
+        width: 80%;
+        background-color: #fff;
+        margin: auto;
+        border: 1px solid (0,0,0,3);
+        border-radius:10px;
+    }
+    .worep{  
+        height: 180px;
+        background-color: #fff;
+        border-radius:10px;
+        overflow:scroll; 
+    }
+    h4{
+        text-align: center;
+        padding: 10px;
+        position: static;
+    }
+    /* 按钮 */
+    .anniuqa{
+        margin: 10px;
+        padding: 10px;
+        
+    }
+    .exchange .anniuqa button{
+        width: 40%;
+        height: 40px;
+        font-size: 12px;
+        border: 1px solid #1069A4;
+        background-color: #1069A4;
+        display:block;
+        margin:0 auto;
+    }
+    button :hover{
+        background-color: #8f8f94;
+    }
+    .dchrk{
+        text-align: center;
+    }
+    .dchrk p{
+        font-size: 14px;
+        margin-top: 0;
+        margin-bottom: 4px;
+        color: #8f8f94;
+    }
+    .mui-checkbox.mui-left input[type=checkbox],
+     .mui-radio.mui-left input[type=radio] {
+        left: 55px;
+    }
+    .mui-checkbox.mui-left label, .mui-radio.mui-left label {
+    padding-right: 15px;
+    padding-left: 58px;
+    font-size: 18px;
+    color: #000;
+    }
+    .mui-radio.mui-left label:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 55px;
+    right: 55px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+  [v-cloak]{
+  	display: none;
+  }
+  #head>a{
+      color:#fff;
+  }
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav" id="head">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            
+    </header>
+   
+    <div id="setUp" v-cloak>
+            <div class="mui-card-content">
+                <ul class="mui-table-view nurte">
+                    <li class="mui-table-view-cell mui-media">
+                        <a href="javascript:;">
+                            <div class=" mui-pull-right yeyr">{{amounttotal}}</div>
+                            <div class=" mui-pull-left ">HY余额</div>
+                        </a>
+                    </li>  
+                </ul>     
+                <ul class="mui-table-view" @click="exchangeshow()">
+                    <li class="mui-table-view-cell mui-media">
+                        <a href="javascript:;">
+                            <div class=" mui-pull-right yeyra">{{selectedflower.name}}</div>
+                            <div class=" mui-pull-left yeyra">兑换花苗</div>    
+                        </a>
+                    </li>  
+                </ul> 
+            
+                <button type="button" class="mui-btn diuan" @click="duihuan()">兑换</button>
+            </div>
+            <!-- 弹窗 -->
+            <div class="exchange" v-if="exchange==1?true:false" @click="hide()">
+                <h4>选择要兑换的花苗</h4>
+                <div class="worep">
+                        <div class="dchrk" v-for="(item,index) in list" >
+                                <div class=" mui-input-row mui-radio mui-left labell">
+                                        <p><label>{{item.name}}</label>
+                                        <input class="input6" name="radio1" type="radio" :checked="selectedflower.id==item.id?'checked':''" id="item.id" @click="selected(item)"></p> 
+                                </div> 
+                             
+                        </div>
+                </div>
+                <!-- 按钮 -->
+                <!-- <div class="anniuqa">
+                        <button type="button" class="mui-btn mui-btn-primary" @click="hide()" >确认</button>
+                </div> -->
+                
+            </div>    
+    </div> 
+   
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/mui.picker.min.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+    mui.init();
+      new Vue({
+        el:'#setUp',
+        data:{
+        	amounttotal:"",//HY余额
+            token:get('token'),
+            exchange:0,
+            Id:"",
+            list:[],
+			selectedflower:"",
+        },methods:{
+        	//获取HY余额
+        	getUserMsg(){
+				var that = this;
+				axios({
+                    url:apqurl+'/api/user/userInfo',
+                    method:'GET',
+                    params:{
+                        accessToken:that.token//"16D9A0180A776BFC53842256FC200A52"
+                    }
+                }).then(function(res){
+                    console.log(res);
+                    var data = res.data
+                    if(data.success){
+						that.amounttotal = data.data.amount;
+					}
+                }).catch(function(res){
+                    console.log(res);
+                });
+			},
+            exchangeshow(){
+            	if(this.exchange==1){
+            		this.hide();
+            		return;
+            	}
+                this.exchange=1;
+                this.getItem();
+            },
+            hide(){
+                this.exchange=0;
+            },
+            // 选中花苗赋值渲染
+            selected(item){
+            	this.selectedflower = item;
+            },
+            // 选择花类
+            getItem(){
+            var that = this; 
+            console.log(that.token);
+            axios({
+                url:apqurl+'/api/user/getProductList',
+                methods:'GET',
+                params:{
+                    accessToken:that.token
+                }
+            }).then(function(res){
+                console.log(res);
+                var data = res.data
+                if(data.success){
+                    that.list =data.data.items;
+                    console.log(that.exchange)
+                    // 判断为0就提示
+                    if(that.exchange == 0){
+                //     mui.toast(res.data.message);
+                    }
+                }
+            });
+
+            },
+            duihuan(){
+            	if(this.selectedflower==""){
+            		mui.toast("请选择兑换的花苗");
+            		return;
+            	}
+            	var that = this;
+            	mui.ajax({
+					url:apqurl+'/api/user/exchange',
+					type:'POST',
+					data:{
+					    accessToken:that.token,
+	                    productID:that.selectedflower.id,
+					},
+					success:function(res){
+						console.log(res);
+						var data = res.data
+						if(res.success){
+							that.getUserMsg();
+							that.selectedflower = "";
+							mui.toast(res.message);
+						}else{
+							mui.toast(res.message);
+						}
+					},
+					error:function(res){
+						console.log(res);
+					}
+				})
+            }
+        },
+        created:function(){
+        	this.getUserMsg();
+        }
+        
+    })
+           
+</script>
+</html>

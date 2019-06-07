@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="css/mui.css" rel="stylesheet" />
+    <title>关于我们</title>    
+	</head>
+	<style type="text/css">
+		.mui-bar{
+			background: #1069a4 !important;
+		}
+		.mui-title{
+			color: #fff;
+		}
+		.about-content{
+      margin: 57px 13px;
+			background: #fff;
+      min-height: 162px;
+      color: #cccccc;
+      padding: 19px 13px;
+      border-radius: 6px;
+		}
+		.cor-white{
+      color: #fff;
+    }
+		.appointment{
+			text-align: center;
+			color: #999
+		}
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+	<body>
+		<div id="home" v-cloak>
+				<header class="mui-bar mui-bar-nav">
+					<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+					<h1 class="mui-title">关于我们</h1>
+				</header>
+				<div class="about-content" v-html='list.content'>
+				</div>
+				<!-- <div class="appointment" @tap="jumpPage">预约详情</div> -->
+		</div>
+	</body>
+	<script src="./js/jquery-1.11.2.min.js"></script>
+	<script src="./js/mui.min.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/layIn.js"></script>
+	<script type="text/javascript">
+		new Vue({
+				el:'#home',
+				data:{
+						list:[
+							{
+								content:''
+							}
+						]
+				},
+				mounted:function(){
+					var that = this;
+					var token = get('token');
+					axios({
+						url:apqurl+'/api/message/aboutUs',
+						method:"GET",
+						params:{
+							accessToken:token
+						}
+					}).then(function(res){
+						var data = res.data;
+						console.log(data);
+						if(data.success){
+							that.list = data.data;
+						}
+						console
+					})
+				},
+				methods:{
+					jumpPage(){
+						Jump('sellerInfo');
+					}
+				}
+			})
+</script>
+
+</html>

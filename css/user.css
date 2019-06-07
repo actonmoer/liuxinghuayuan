@@ -1,0 +1,263 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+ul,li{ 
+    padding:0;margin:0;
+    list-style:none
+}
+em{
+    font-style:normal;
+}
+i{
+    font-style:normal;
+    margin-right: 5px;
+}
+body{
+    background-color: #fff;
+}
+.user_mian{
+    height: 100%;
+}
+.sbeijing{
+    background:url('../img/beijing3@2x.png');
+    background-size: 100% 100%;
+    height: 40%;
+}
+.sbeijing>.user_conter{
+    padding: 0 20px;
+    margin-bottom: 20px;
+    height: 45%;
+}
+.head{
+    text-align: center;
+    line-height: 44px;
+    position: relative;
+    height: 19%;
+}
+.head>span{
+    color: #fff;
+}
+.chilun{
+    position:absolute;
+    top:9px;
+    right: 10px;
+}
+.user_xiangqing{
+    display:flex;
+}
+.user_list_name{
+    font-style:normal;
+    font-size: 14px;
+    margin-right: 5px;
+}
+.touxiang>img{
+    flex:1;
+}
+.touxiang>img{
+    width: 47px;
+    height: 47px;
+}
+.user_list{
+    flex:5;
+    margin-left: 10px;
+    display:flex;
+    flex-direction:column;
+}
+.user_list>span{
+    color:#fff;
+    font-size: 12px;
+    
+}
+.user_list_id{
+    margin-right: 5px;
+}
+.hy_feiliao{
+    display: flex;
+    justify-content:space-between;
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+.hy{
+    width: 150px;
+    margin-right: 5px;
+    background-color: #034175;
+    padding: 10px 0 10px 10px;
+    border-radius: 10px;
+    display:flex;
+    position: relative;
+}
+.lt_text{
+    flex:1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction:column;
+}
+.right_btn{
+    flex:2;
+    display: flex;
+    position: absolute;
+    top:15%;
+    right: 0;
+}
+.lt_text>span{
+    display: block;
+    font-size: 12px;
+    color:#fff;
+}
+.look,.close{
+    background-color: #fff;
+    color:#215380;
+    width: 41px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    padding: 2px 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.right_btn>.look{
+    border-radius: 10px;
+}
+.right_btn>.close{
+    border-radius: 10px 0 0 10px;
+    margin-left:10px;
+}
+.feiliao{
+    background-color: #034175;
+}
+.user_mian>.shuju{
+    height: 10%;
+}
+.user_mian>.shuju>.sj_list{
+    display: flex;
+}
+.sj_list>li{
+    flex:1;
+    display: flex;
+    flex-direction:column;
+    text-align: center;
+    border-right: 1px solid #61b7c4;
+}
+.sj_list .sj_spans{
+    margin-bottom: 5px;
+    line-height: 20px;
+}
+.shuju>ul>li>p{
+    color:black;
+}
+.shuju>ul>li:nth-child(3){
+    border-right:none;
+}
+.user_mian>.gongneng{
+    background: url("../img/ge @2x.png") ;
+    background-size: 100% 100%;
+    height: 45%;
+    padding-top: 25px;
+}
+.gongneng>.ul_list{
+    background-color: #fff;
+    border-radius: 5px;
+    /* padding:0 20px; */
+    width: 85%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    position: relative;
+}
+.gongneng>ul>li{
+    font-size: 12px;
+}
+.ul_list>ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.ul_list>ul>li{
+    width: 33%;
+    padding: 10px;
+    border-right: 1px solid #61b7c4;
+    border-bottom: 1px solid #61b7c4;
+    text-align: center;
+}
+.ul_list>ul>li:nth-child(3){
+    border-right:none;
+}
+.ul_list>ul>li:nth-child(4){
+    border-bottom: none;
+}
+.ul_list>ul>li:nth-child(5){
+    border-bottom: none;
+}
+.ul_list>ul>li:nth-child(6){
+    border-bottom: none;
+    border-right:none;
+}
+.gongneng>ul>li>a{
+    color:black;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.ul_list>ul>li>a>img{
+    display: block;
+    width: 40px;
+    height: 40px;
+    /* margin-bottom: 10px; */
+    margin: 0 auto;
+}
+.ul_list>.ul_list_xz>li>a>span{
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+    color:#000;
+}
+/* 用户头像弹窗 */
+.tjzh{
+   position:fixed;
+   top:10%;
+   /* left: 10%; */
+   width: 90%;
+   height: 25%;
+   background-color: #fff;
+   display: flex;
+   justify-content: flex-start;
+   flex-direction:column;
+   padding:20px 30px 40px 30px;
+   border-radius:10px;
+   z-index:100;
+}
+.text_xz{
+   font-size: 18px;
+   margin-bottom: 20px;
+    color:#4f4f4f;
+}
+.text_xz>span{
+   font-size: 14px;
+   margin-bottom: 10px;
+}
+.scImg>img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.box{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    z-index:30;
+}
+[v-cloak]{
+    display:none;
+}

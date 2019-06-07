@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/mui.min.css">
+    <title>退出登入</title>
+    <style>
+        /* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    /* 头部定位 */
+    .mui-bar {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        background: #0F69A4;  
+    }
+    /* 头部边距 */
+    .mui-bardiv{
+        margin-top: 50px;
+    }
+    .mui-bar a,
+    .mui-title{
+        color:#f7f7f7;
+    }
+    .mui-icon-back{
+        
+        color:#f7f7f7;
+    }
+ 
+    .nav div span{
+        padding: 10px 0;
+    }
+    .selected{
+        color: #1069A4;
+        border-bottom: 3px solid #1069A4;
+    }
+    .mui-card-content .nurte{
+        margin-top: 12px;
+    }
+ 
+    .btn-anlui .button-y{
+        text-align: center;
+        /* display:-webkit-flex;    */
+    }
+    /* 列表 */
+    .mui-badgeav{
+        font-weight: 550; 
+        font-size: 16px;
+    }
+    .mui-badgea {
+        position: absolute;
+        font-size: 16px;
+        line-height: 1;
+        display: inline-block;
+        padding: 3px 6px;
+        color: #333;
+        border-radius: 100px;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        font-weight: 600;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+   
+   /* 按钮 */
+    .diuan{
+       
+        width: 80%;
+        color: #fff;
+        border: 1px solid #1069A4;
+        background-color: #1069A4;
+        margin: 10%;
+        font-size: 25px;
+        transition-timing-function: linear;
+
+    }
+
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+        <h1 class="mui-title">设置</h1>
+    </header>
+   
+    <div class="mui-bardiv" v-cloak>
+        <!-- 头部 -->
+    
+        <div class="mui-card-content">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-badgeav" id="goToAlterName">
+                    用户名
+                    <span class="mui-badgea nickName"></span>
+                </li>
+                <li class="mui-table-view-cell mui-badgeav">当前账号
+                    <span class="mui-badgea userName"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="mui-card-content mt10">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-badgeav">
+                    <a class="mui-navigate-right" href="./alterLoginPwd.html" >
+                        登入密码
+                    </a>
+                </li>
+                <li class="mui-table-view-cell mui-badgeav">
+                    <a class="mui-navigate-right" href="./twoPwd.html">
+                        支付密码
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="mui-card-content mt10">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-badgeav">
+                    <a class="mui-navigate-right" href="./aboutUs.html">
+                        关于我们
+                    </a>
+                </li>
+            </ul>
+        </div>
+       
+        
+        <button type="button" class="mui-btn diuan" id="confirmBtn" >退出</button>
+    </div>    
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script>
+    var token = get('token');
+    var display = function(){
+        $.ajax({
+            url:apqurl+'/api/user/getPersonCenterInfo',
+            type:'GET',
+            data:{
+                accessToken:token
+            },
+            success: function(res) {
+                var data = res.data;
+                console.log(data);
+                $('.nickName').text(data.nickName)
+                $('.userName').text(data.userName)
+            }
+        })
+    }
+    display();
+    var info = document.getElementById("confirmBtn");
+    // console.log(info);
+    document.getElementById("confirmBtn").addEventListener('tap', function() {
+        var btnArray = ['否', '是'];
+        mui.confirm('是否确认退出登入？', '提示！', btnArray, function(e) {
+
+            if (e.index == 1) {
+                mui.toast('已退出！');
+            } else {
+                mui.toast('取消退出！');
+            }
+        })
+    });
+
+    document.getElementById('goToAlterName').onclick = function(){
+        location.href = './alterUserName.html'
+    }
+</script>
+</html>

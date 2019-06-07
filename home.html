@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/nav.css"/>
+	</head>
+	<style type="text/css">
+		.mui-bar{
+			background: #1069a4 !important;
+		}
+		.mui-title{
+			color: #fff;
+		}
+		.mui-content{
+			background: #fff;
+		}
+		.notice{
+			display: flex;
+			padding: 10px 20px;
+		}
+		.noticeImg{
+			width: 30%;
+		}
+		.noticeImg>img{
+			width: 1.5rem;
+			vertical-align: middle;
+		}
+		.noticeMsg{
+			width: 70%;
+		}
+		.message{
+			color: #ecc37b;
+		}
+		.content{
+			background: url('img/BG@2x.png') no-repeat;
+			background-size: 100% 100%;
+			width: 100%;
+			height: 85vh;
+			padding-top: 7px;
+		}
+		.list{
+			height: 100%;
+			width: 98%;
+			margin: auto;
+			overflow: auto;
+			margin-bottom:4rem ;
+		}
+		
+		.list-item{
+			display: inline-block;
+			width: 46%;
+			border-radius: 15px;
+			background: #FFF;
+			margin: 5px;
+			padding: 6px;
+		}
+		.list-item span{
+			display: inline-block;
+			font-size: 12px !important;
+			white-space: nowrap;
+		}
+		.line{
+			width: 100%;
+			height: 1px;
+			border-bottom: 1px dashed #0aaa60;
+			margin: 10px 0;
+		}
+		.flex{
+			display: flex;
+			overflow-y: auto;
+		}
+		.flex>div{
+			width: 50%;
+			margin: 0 5px;
+			text-align: center;
+		}
+		.flowerImg{
+			width: 3.375rem;
+			height: 4.25rem;
+		}
+		.list-title>div{
+			width: 100%;
+			text-align: center;
+			line-height: 1.3;
+			font-size: 13px;
+		}
+		.greenBtn{
+			margin-top: 10px;
+			padding: 5px;
+			text-align: center;
+			color: #fff;
+			border-radius: 20px;
+			background: #07aa5e;
+		}
+		.yellowBtn{
+			margin-top: 10px;
+			padding: 5px;
+			text-align: center;
+			color: #fff;
+			border-radius: 20px;
+			background: #fcb750;
+		}
+		.appointmentBox{
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background: rgba(0,0,0,.4);
+			z-index: 10000;
+		}
+		.appointment{
+			background: #fff;
+			text-align: center;
+			border-radius: 10px;
+			width: 85%;
+			margin: 10rem auto;
+		}
+		.appointment p{
+			color: #000000;
+			padding: 30px;
+		}
+		.btnArr{
+			display: flex;
+			color: #999;
+			border-top: 1px solid #eee;
+		}
+		
+		.btnArr>span{
+			width: 50%;
+			padding: 10px;
+			font-size: 14px;
+		}
+		.determine{
+			color: #5faaff;
+			border-left: 1px solid #eee;
+		}
+		
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">市场</h1>
+		</header>
+		<div class="mui-content" id="home" v-cloak>
+			<div class="notice" @click="toNotice">
+				<div class="noticeImg">
+					<img src="img/gonggao@2x.png"/>
+					<span>公告：</span>
+				</div>
+				<div class="noticeMsg">
+					<marquee class="message">{{notice}}</marquee>
+				</div>
+			</div>
+			<div class="content">
+				<div class="list">
+					<div class="list-flex">
+						<div class="list-item" v-for="(item,index) in flowerList">
+							<div>
+								<span>区块价值：{{item.amount}}-{{item.maxAmount}}</span>
+							</div>
+							<div>
+								<span>领种时间：10:00-14:00</span>
+							</div>
+							<div>
+								<span>预约消耗肥料：{{item.bookingConsume}}</span>
+							</div>
+							<div>
+								<span>智能合约收益：{{item.durationCount}}小时/{{item.Profit}}%</span>
+							</div>
+							<div>
+								<span>浇水消耗肥料：{{item.durationCount}}小时/{{item.WateringConsume}}</span>
+							</div>
+							<div class="line"></div>
+							<div class="flex">
+								<div>
+									<image :src="item.Image" mode="" class="flowerImg"></image>
+								</div>
+								<div class="list-title">
+									<div>{{item.Name}}</div>
+									<!-- <div>|</div>
+									<div>菊花</div> -->
+									<div class="greenBtn" v-if="status == 1">生长中</div>
+									<div class="yellowBtn" v-else @click="appointment(item.ID,item.bookingConsume)">预约</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="appointmentBox" v-show="aBol">
+				<div class="appointment">
+					<p>预约消耗肥料{{bookingConsume}}</p>
+					<div class="btnArr">
+						<span class="cancle" @click="cancle">取消</span>
+						<span class="determine" @click="sure">确定</span>
+					</div>
+				</div>
+			</div>
+			<nav class="nav">
+			    <div class="nav-item" style="color: #1069a4" >
+			        <div><img src="img/shichang@2x.png" /></div>
+			        <div>市场</div>
+			    </div>
+			    <div class="nav-item"  @click="toGarden">
+			        <div><img src="img/hua@2x.png" /></div>
+			        <div>我的花园</div>
+			    </div>
+			    <div class="nav-item"  @click="toMy">
+			        <div><img src="img/wode@2x.png" /></div>
+			        <div>个人中心</div>
+			    </div>
+			</nav>
+		</div>
+		
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.js"></script>
+		<script src="js/layIn.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			new Vue({
+			    el:'#home',
+			    data:{
+			        aBol:false,    //预约
+					flowerList:[],    //鲜花列表
+					token:'',
+					notice:'',     //公告
+					status:0,    
+					bookingConsume:0,    //消耗肥料 
+					flowerId:0           //鲜花id
+			    },
+				created(){
+					this.token = localStorage.getItem('token')
+					this.productList();
+				},
+//				mounted(){
+//					mui.plusReady(function(){
+//						try{
+//							plus.webview.currentWebview().opener().hide();
+//							plus.webview.currentWebview().opener().close();
+//						}catch(e){
+//							//TODO handle the exception
+//						}
+//						
+//						// var wvs = plus.webview.all();
+//						// console.log(wvs.length);
+//					})
+//              },
+			    methods:{
+			        toGarden(){
+//						mui.openWindow({
+//							url:'./myGarden.html',
+//							id:'myGarden'
+//						})
+						location.href="myGarden.html";
+					},
+					toMy(){
+//						mui.openWindow({
+//							url:'./user.html',
+//							id:'user'
+//						})
+						location.href="user.html";
+					},
+					toNotice(){
+						mui.openWindow({
+							url:'./noticeList.html',
+							id:'noticeList'
+						})
+					},
+					appointment(id,consume){
+						this.aBol = true;
+						this.flowerId = id;
+						this.bookingConsume = consume;
+					},
+					cancle(){
+						this.aBol = false;
+					},
+					sure(){
+						//预约购买
+						var that = this;
+						mui.ajax({
+							url:apqurl+'/api/product/bookingBuy',
+							type:'post',
+							data:{
+								productID:that.flowerId,
+								accessToken: that.token
+							},
+							success:function(res){
+								
+								console.log(res)
+								if(res.success){
+									mui.toast('预约成功！')
+								}else{
+									mui.toast(res.message)
+								}
+								that.aBol = false;
+							},
+							error:function(err){
+								console.log(err)
+							}
+						})
+					},
+					productList(){
+						var that = this;
+						axios.get(apqurl+'/api/product/productList', {
+							params: {
+								accessToken: that.token
+							}
+						})
+						.then(function (res) {
+							console.log(res);
+							that.flowerList = res.data.data.items;
+							that.status = res.data.data.Status;
+							that.notice = res.data.data.message.title;
+							console.log(that.flowerList,that.status)
+						})
+						.catch(function (err) {
+							console.log(err);
+						});
+					}
+					
+			    }
+			})
+		</script>
+	</body>
+
+</html>

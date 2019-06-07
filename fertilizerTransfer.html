@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		.colorAAA{color: #AAAAAA;}
+		
+		body{background-color: white;}
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.mui-bar{
+		 -webkit-box-shadow: none;
+		 box-shadow: none;
+		 background: #48C9A7;
+		}
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		.main{
+			width: 92%;
+			margin-left: 4%;
+			font-size: 14px;
+			margin-top: 64px;
+		}
+		.main input{
+			width: 40%;
+		}
+		/* .main div:last-child{
+			border: none;
+		} */
+		.line{
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.determine{
+			width: 92%;
+			margin-left: 4%;
+			margin-top: 30px;
+			color: white;
+			background-color: #1069A4;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 5px;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="fertilizerTransfer" v-cloak>
+			<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>肥料转出</span>
+				<span></span>
+			</header>-->
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">肥料转出</h1>
+		    </header>
+			<div class="main flex-column">
+				<div class="line w100 flex-row-center">
+					<span class="w30">账户选择：</span>
+					<span class="w40">养料转出</span>
+				</div>
+				<div class="line w100 flex-row-between">
+					<span class="w30">转出账户：</span>
+					<span class="colorAAA">养料</span>
+				</div>
+				<div class="line w100 flex-row-between">
+					<span class="w30">账户余额：</span>
+					<span class="colorAAA">{{fertilizerAmount}}</span>
+				</div>
+				<div class="line w100 flex-row-between">
+					<span class="w30">转入账户：</span>
+					<span class="colorAAA">养料</span>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">转账类型：</span>
+					<span class="w40">转给其他会员</span>
+				</div>
+				<div class="line w100 flex-row-between">
+					<span class="w30">网络限定：</span>
+					<span class="colorAAA">推荐下级</span>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">转入人编号：</span>
+					<input class="" v-model="userNo" placeholder="请输入转入人编号"/>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">转出数量：</span>
+					<input class="" v-model="amount" placeholder="请输入传出数量"/>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">备注</span>
+					<input class="" v-model="remark" placeholder=""/>
+				</div>
+			</div>
+			<div class="determine" @click="determine()">确定</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		
+		<script src="./js/layIn.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			new Vue({
+		        el:'#fertilizerTransfer',
+		        data:{
+		        	token:get('token'),
+		        	
+		        	fertilizerAmount:'',//养料余额
+		        	
+		        	userNo:"",//编号
+		        	amount:"",//金额
+		        	remark:"",//备注
+		        },
+		        methods:{
+		        	//获取养料余额
+		        	getUserMsg(){
+						var that = this;
+						axios({
+		                    url:apqurl+'/api/user/userInfo',
+		                    method:'GET',
+		                    params:{
+		                        accessToken:that.token//"16D9A0180A776BFC53842256FC200A52"
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.fertilizerAmount = data.data.fertilizerAmount;
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					determine(){
+						var that = this;
+						if(that.userNo.length == 0){
+						mui.toast('请输入转入人编号！');
+							return false;
+						}
+						if(that.amount.length == 0){
+							mui.toast('请输入转出数量！');
+							return false;
+						}
+//						if(that.remark.length == 0){
+//							mui.toast('请写备注！');
+//							return false;
+//						}
+						axios({
+		                    url:apqurl+'/api/user/fertilizerTurnOut',
+		                    method:'POST',
+		                    params:{
+		                        accessToken:that.token,//"16D9A0180A776BFC53842256FC200A52"
+		                        userNo:that.userNo,//编号
+					        	amount:that.amount,//金额
+					        	remark:that.remark,//备注
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								mui.toast('转出成功');
+							}
+		                    else{
+		                    	mui.toast(data.message);
+		                    	return;
+		                    }
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					}
+		        },
+		        created:function(){
+					this.getUserMsg();
+				},
+				mounted:function(){
+					
+				},
+				destoryed:function(){
+					
+				}
+		   });
+		</script>
+	</body>
+
+</html>

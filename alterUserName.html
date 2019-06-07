@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="css/mui.css" rel="stylesheet" />
+    <title>更改用户名</title>
+	</head>
+	<style type="text/css">
+		.mui-bar{
+			background: #1069a4 !important;
+		}
+		.mui-title{
+			color: #fff;
+		}
+		.alter-name-content{
+      display: flex;
+      align-items: center;
+      margin-top: 57px;
+			background: #fff;
+      padding: 0 14px;
+      height: 53px;
+      font-size: 14px;
+		}
+    .alter-name-content-left{
+      flex-shrink: 1;
+    }
+    .alter-name-content-input{
+      flex: 1;
+      font-size: 14px;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block;
+      border: none !important;
+    }
+    .black-btn{
+      margin: 48px 8px;
+      background-color: #1069a4;
+      border-radius: 6px;
+      color: #fff;
+      height: 53px;
+      line-height: 53px;
+      text-align: center;
+    }
+    .cor-white{
+      color: #fff;
+    }
+    [v-cloak]{
+      display: none;
+    }
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+			<h1 class="mui-title">更改真实姓名</h1>
+    </header>
+    <div id="alterUserName" v-cloak>
+      <div class="alter-name-content">
+        <div class="alter-name-content-left">填写真实用户名：</div>
+        <input class="alter-name-content-input" type="text" placeholder="请输入真实姓名" v-model="newName">
+      </div>
+      <div class="black-btn" @click="handleAlterUserNameBtn">确定</div>
+    </div>
+    
+		
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.js"></script>
+    <script src="./js/axios.min.js"></script>
+		<script src="./js/layIn.js"></script>
+		<script type="text/javascript">
+			new Vue({
+			    el:'#alterUserName',
+			    data:{
+            token:get('token'),
+            newName: ""
+			    },
+			    methods:{
+            handleAlterUserNameBtn(){
+              var that = this;
+              if(that.newName.length == 0){
+								mui.toast('请输入新的用户名 !');
+                return false;
+							}
+            
+              axios({
+                    url:apqurl+'/api/user/updateName',
+                    method:'POST',
+                    params:{ 
+											accessToken: that.token,
+											newName: that.newName
+										}
+                }).then(function(res){
+                    var data = res.data;
+                    if(data.success){
+                      that.newName = '';
+                      mui.toast(data.message)
+                      setTimeout(() => {
+                        mui.openWindow({
+                          url: "./user.html",
+                        })
+                      }, 1500);
+                    }
+
+                }).catch(function(res){
+                    console.log(res);
+                })
+                
+            }
+			    }
+			})
+		</script>
+	</body>
+
+</html>

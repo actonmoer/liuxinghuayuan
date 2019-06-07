@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+    
+    <link href="css/mui.css" rel="stylesheet" />
+    <title>分享</title>        
+    <script src="./js/flexible.js"></script>
+
+	</head>
+  <style type="text/css">
+    html,body{
+      width: 100%;
+      height: 100%;
+    }
+    .share-content{
+      background: url('./img/share.png') no-repeat;
+      background-size: 100% 100%;
+      width: 100%;
+      height: 100%;
+    }
+    .share-content>img{
+      position: fixed;
+      width: 100%;
+      height: 100%;
+    }
+    .share-header{
+      position: absolute;
+      top: 1.44rem;
+      left: 0;
+      width: 100%;
+      font-size: 0.42rem;
+      color: #fff;
+      text-align: center;
+    }
+    .share-code{
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      top: 6.21333rem;
+      left: 0;
+    }
+    .share-code>img{
+      display: block;
+      width: 6rem;
+      height: 6rem;
+    }
+    .bottom-dese{
+      position: absolute;
+      width: 100%;
+      top: 13rem;
+      left: 0;
+      text-align: center;
+      color: #fff;
+      line-height: 0.64rem;
+      font-size: 0.42rem;
+    }
+    .txt-col-white{
+      margin: 0.3rem;
+      font-size: 1rem;
+      color: #fff;
+    }
+	</style>
+	<body>
+
+    <div class="share-content" id="share" v-cloak>
+      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left txt-col-white"></a>      
+      <img src="" alt="">
+      <div class="share-header">分享给好友</div>
+      <div class="share-code">
+        <img :src="imgUrl" alt="">
+      </div>
+      <div class="bottom-dese">
+        <div>扫码上方二维码</div>
+        <div>立即免费注册使用流星花园</div>
+      </div>
+    </div> 
+  
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.js"></script>
+    <script src="./js/axios.min.js"></script>
+		<script src="./js/layIn.js"></script>
+		<script type="text/javascript">
+			new Vue({
+			    el:'#share',
+			    data:{
+            imgUrl: ""
+			    },
+          created () {
+            this.initPage()
+          },
+			    methods:{
+            // initPage
+            initPage(){
+
+              var token = get('token')
+
+              this.imgUrl =  apqurl+'/api/user/getGeneralizesQRCode?accessToken=' + token;
+              
+            }
+
+			    }
+			})
+		</script>
+	</body>
+
+</html>

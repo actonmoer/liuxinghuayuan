@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.css" rel="stylesheet" />
+	<style>
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+		}
+
+		.mui-bar-nav {
+			background-color: #1069A4;
+		}
+
+		.text-col-white {
+			color: #fff;
+		}
+
+		.mui-content a {
+			color: #535353;
+		}
+
+		.myMsg {
+			margin-top: 14px;
+			;
+			background-color: #fff;
+			padding: 15px 15px 5px;
+			color: #535353;
+		}
+
+		.user-name {
+			display: flex;
+			justify-content: space-between;
+			border-bottom: 1px solid #eee;
+			height: 34px;
+			line-height: 34px;
+		}
+
+		.account-num {
+			display: flex;
+			justify-content: space-between;
+			height: 40px;
+			line-height: 46px;
+		}
+
+		.set-pwd {
+			margin-top: 14px;
+			;
+			background-color: #fff;
+			padding: 15px 15px 5px;
+			color: #535353;
+		}
+
+		.login-pwd {
+			display: flex;
+			justify-content: space-between;
+			border-bottom: 1px solid #eee;
+			height: 34px;
+			align-items: center;
+		}
+
+		.pay-pwd {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 40px;
+		}
+
+		.about {
+			margin-top: 14px;
+			;
+			background-color: #fff;
+			padding: 5px 15px 5px;
+			color: #535353;
+		}
+
+		.diuan {
+
+			width: 80%;
+			color: #fff;
+			border: 1px solid #1069A4;
+			background-color: #1069A4;
+			margin: 10%;
+			padding: 10px;
+			font-size: 16px;
+			transition-timing-function: linear;
+
+		}
+
+		.mui-title {
+			color: #fff;
+		}
+
+		.appointmentBox {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background: rgba(0, 0, 0, .4);
+			z-index: 10000;
+		}
+
+		.appointment {
+			background: #fff;
+			text-align: center;
+			border-radius: 10px;
+			width: 85%;
+			margin: 14rem auto;
+		}
+
+		.appointment p {
+			color: #000000;
+			margin: 0;
+			padding: 30px;
+		}
+
+		.btnArr {
+			display: flex;
+			color: #999;
+			border-top: 1px solid #eee;
+		}
+
+		.btnArr>span {
+			width: 50%;
+			padding: 10px;
+			font-size: 14px;
+		}
+
+		.determine {
+			color: #5faaff;
+			border-left: 1px solid #eee;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="back mui-icon mui-icon-left-nav mui-pull-left text-col-white"></a>
+		<h1 class="mui-title">设置</h1>
+	</header>
+	<div class="mui-content" id="set" v-cloak>
+		<div class="myMsg">
+			<div class="user-name" @click="handleGoToName">
+				<span>真实姓名</span>
+				<span class="right">{{userNamer}}</span>
+			</div>
+			<div class="account-num">
+				<span>当前账号</span>
+				<span class="right">{{userNo}}</span>
+			</div>
+		</div>
+		<div class="set-pwd">
+			<a href="./alterLoginPwd.html" class="login-pwd">
+				<span>登录密码</span>
+				<span class="mui-icon mui-icon-arrowright"></span>
+			</a>
+			<a href="./twoPwd.html" class="pay-pwd">
+				<span>支付密码</span>
+				<span class="mui-icon mui-icon-arrowright"></span>
+			</a>
+		</div>
+		<div class="about">
+			<a href="./aboutUs.html" class="pay-pwd">
+				<span>关于我们</span>
+				<span class="mui-icon mui-icon-arrowright"></span>
+			</a>
+		</div>
+
+		<div class="appointmentBox" v-if="isShowLoginOut">
+			<div class="appointment">
+				<p>确定退出登录吗？</p>
+				<div class="btnArr">
+					<span class="cancle" @click="handleCancelLoginOut">取消</span>
+					<span class="determine" @click="handleConfirmLoginOut">确定</span>
+				</div>
+			</div>
+		</div>
+
+		<button type="button" class="mui-btn diuan" @click="handleLoginOut">退出</button>
+	</div>
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/mui.js"></script>
+	<script src="./js/layIn.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$('.back').click(function(){
+			Jump('user');
+		})
+		new Vue({
+			el: '#set',
+			data: {
+				userNamer: "",
+				userNo: "",
+				token: '',
+				isShowLoginOut: false
+			},
+			created() {
+				this.userInfo()
+
+			},
+			methods: {
+				userInfo() {
+					var that = this;
+					var token = get('token')
+					axios({
+						url: apqurl + '/api/user/getPersonCenterInfo',
+						method: 'GET',
+						params: {
+							accessToken: token
+						}
+					}).then(function (res) {
+						var data = res.data
+						if (data.success) {
+
+							that.userNamer = data.data.realName;
+							that.userNo = data.data.userNo;
+
+							set('phone', data.data.userName)
+						}
+
+					}).catch(function (res) {
+						// console.log(res);
+					})
+				},
+				handleGoToName() {
+					mui.openWindow({
+						url: "./alterUserName.html",
+					})
+
+				},
+				handleLoginOut() {
+
+					this.isShowLoginOut = true;
+
+				},
+				handleCancelLoginOut() {
+					this.isShowLoginOut = false;
+				},
+				handleConfirmLoginOut() {
+
+
+
+					//判断当前设备类型
+					if (mui.os.ios || mui.os.ipad || mui.os.android) {
+						// 获取当前webview窗口对象
+						var curr = plus.webview.currentWebview();
+						//获取所有已经打开的webview窗口
+						var wvs = plus.webview.all();
+						for (var i = 0, len = wvs.length; i < len; i++) {
+							//关闭除当前页面外的其他页面
+							//遇到当前页跳过
+							if (wvs[i].getURL() == curr.getURL()) {
+								continue;
+							} else if (wvs[i].getURL().indexOf("index.html") > 1) {
+								continue;
+							} else {
+								//非当前页执行关闭
+								plus.webview.hide(wvs[i]);
+								plus.webview.close(wvs[i]);
+							}
+						}
+					}
+					// mui.toast('已退出！');
+					// localStorage.clear()
+					set('token','');
+					mui.toast('退出成功！');
+					setTimeout(() => {
+						window.location.href='index.html';
+						
+					}, 1000);
+
+
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

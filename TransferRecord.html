@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/mui.min.css">
+    <title>转让记录</title>
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .mui-bar {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            background: #0F69A4;
+
+        }
+
+        .clour {
+            color: #1069A4;
+            font-weight: 550;
+            margin-left: 5px;
+
+        }
+
+        .clours {
+
+            color: red;
+            font-weight: 550;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .mui-title {
+            color: #f7f7f7;
+        }
+
+        .mui-icon-back {
+
+            color: #f7f7f7;
+        }
+
+        .flex-row-between {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav {
+            color: #666;
+            border-top: 1px solid #CCCCCC;
+            border-bottom: 1px solid #CCCCCC;
+            background: #ffffff;
+        }
+
+        .nav div {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .nav div span {
+
+            padding: 10px 0;
+        }
+
+        .selected {
+            color: #1069A4;
+            border-bottom: 3px solid #1069A4;
+        }
+
+        .mui-table-view {
+            position: relative;
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+            margin-top: 12px;
+            background-color: #fff;
+        }
+
+        .mui-card-content .mui-media .nodfyi {
+            font-size: 16px;
+            color: #222;
+            font-weight: 500;
+        }
+
+        .mui-card-content .mui-media .pnodfyi {
+            font-size: 14px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-anlui {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .btn-anlui .button-y {
+            text-align: center;
+        }
+
+        .btn-anlui .button-y button {
+            line-height: 20px;
+
+            font-weight: 700;
+            color: #0F69A4;
+            font-size: 14px;
+            border: 2px solid #0F69A4;
+        }
+
+        .mui-table-view-cell:after {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0px;
+            height: 1px;
+            content: '';
+            -webkit-transform: scaleY(.5);
+            transform: scaleY(.5);
+            background-color: #c8c7cc;
+        }
+
+        .not-data {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="transferRecord" v-cloak>
+        <header class="mui-bar mui-bar-nav" id="head">
+            <span class="mui-action-back mui-icon mui-icon-back"></span>
+            <h1 class="mui-title">转让记录</h1>
+        </header>
+
+        <div class="nav flex-row-between" id="nav" >
+            <div v-for="(item,index) in navList" :key="index" @click="handleClickTopNav(index)">
+                <span :class="navListIndex == index?'selected':''">{{item}}</span>
+            </div>
+        </div>
+
+
+        <div v-if="recordList.length">
+            <div class="mui-card-content" v-for="(item,index) in recordList" :key="index">
+                <ul class="mui-table-view" @click="handleClickOrder(item.status,item.id)">
+                    <li class="mui-table-view-cell mui-media">
+                        <a href="javascript:;">
+                            <div class=" mui-pull-right clour" v-if="item.status == 1">等待买家付款</div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 2">
+                                <span>查看</span>|
+                                <span class="clours">确认收款</span></div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 3"
+                                >查看|交易完成</div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 4"
+                                >
+                                申诉中<span class="clours">（取消申诉）</span>
+                            </div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 5">已取消申诉</div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 6">申诉完成</div>
+                            <div class=" mui-pull-right clour" v-else-if="item.status == 7" >
+                                已过期<span class="clours">(申诉)</span></div>
+                            <div class="mui-media-body">
+                                <p class="mui-ellipsis">编号：{{item.userNo}}</p>
+
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mui-table-view-cell mui-media">
+                        <a href="javascript:;">
+                            <div class="mui-media-body">
+                                <p class="mui-ellipsis  nodfyi">{{item.productName}}</p>
+                                <p class="mui-ellipsis pnodfyi">种子编号：{{item.productNo}}</p>
+                                <p class="mui-ellipsis pnodfyi">智能合约收益：{{item.durationCount}}小时/{{item.profitRate}}%</p>
+                                <p class="mui-ellipsis pnodfyi">挂单时间：{{item.addTime | formatDate}}</p>
+                                <p class="mui-ellipsis pnodfyi" v-if="item.buyUserNo">买家编号：{{item.buyUserNo}}</p>
+                                <p class="mui-ellipsis pnodfyi" v-if="item.buyUserPhone">买家手机号：{{item.buyUserPhone}}</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-anlui">
+                <div class="button-y">
+                    <button type="button" class="mui-btn" @click="goOnePage">首页</button>
+                    <button type="button" class="mui-btn" @click="previous">上一页</button>
+                    <button type="button" class="mui-btn">{{page}}/{{totalPage}}</button> 
+                    <button type="button" class="mui-btn" @click="next">下一页</button>
+                    <button type="button" class="mui-btn" @click="tail">尾页</button>
+                </div>
+            </div>
+        </div>
+        <div class="not-data" v-else>暂时没有更多数据！</div>
+
+    </div>
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script src="./js/vue.js"></script>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#transferRecord',
+        data: {
+            navList: ["待转让", "转让中", "已转让", "取消/申诉"],
+            navListIndex: 0,
+            page: 1,
+            rows: 10,
+            recordList: [],
+            totalPage: ''
+        },
+        created() {
+            this.initPage(0)
+        },
+        filters: {
+            formatDate(date) {
+
+                var time = new Date(date);
+                var y = time.getFullYear();
+                var m = time.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var d = time.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = time.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                var min = time.getMinutes();
+                min = min < 10 ? ('0' + min) : min;
+                var s = time.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+
+                return y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+
+            },
+        },
+        methods: {
+            // init Page
+            initPage(type, page, rows) {
+                var token = get('token');
+                var that = this;
+                axios({
+                    url: apqurl + '/api/product/makeOverList',
+                    method: 'GET',
+                    params: {
+                        accessToken: token,
+                        type: type || this.navListIndex,
+                        page: page || this.page,
+                        rows: rows || this.rows
+                    }
+                }).then(function (res) {
+
+                    var data = res.data;
+
+                    if (data.success) {
+
+                        that.navListIndex = type;
+                        that.recordList = data.data.rows
+
+                        that.totalPage = Math.ceil(data.data.total / that.rows)
+                        // console.log(that.totalPage);
+                    }
+
+                }).catch(function (res) {
+                    console.log(res);
+                });
+            },
+            goOnePage() {
+                var type = this.navListIndex;
+                this.page = 1
+                this.initPage(type, this.page)
+            },
+            previous() {
+                var that = this
+                if (that.page <= 1) {
+                    return
+                } else {
+                    that.page--
+                    var type = this.navListIndex;
+
+                    that.initPage(type,that.page)
+                }
+            },
+            next() {
+                var that = this;
+                if (that.page >= that.totalPage) {
+                    return
+                } else {
+                    that.page++
+                    var type = this.navListIndex;
+
+                    that.initPage(type,that.page)
+                }
+            },
+            tail() {
+
+                var type = this.navListIndex;
+                this.page = this.totalPage
+                this.initPage(type, this.totalPage)
+            },
+            // 处理 点击 顶部导航
+            handleClickTopNav(index) {
+                this.navListIndex = index;
+                this.page = 1; 
+                this.totalPage = "";
+                this.initPage(index);
+            },
+            // 点击 handleClickOrder
+            handleClickOrder(state,id){
+                if(state == 1 || state ==5 || state == 6) return false;
+                 
+                state == 2 && this.handleConfirmMoney(id)
+                
+                state == 3 && this.handleGoToBuyerInfo(id)
+
+                state == 4 && this.handleCancelAppeal(id)
+                
+                state == 7 && this.handleAppeal(id)
+
+            },
+            // 取消申诉
+            handleCancelAppeal(id) {
+                var token = get('token');
+                var that = this;
+                var page = this.page;
+                var type = this.navListIndex;
+                var btnVal = ["取消", "确定"]
+                mui.confirm('确定取消申诉吗？', '提示', btnVal, function (e) {
+                    if (e.index == 1) { 
+                        
+                        axios({
+                            url: apqurl + '/api/product/cancelComplain',
+                            method: 'POST',
+                            params: {
+                                accessToken: token,
+                                matchID: id
+                            }
+                        }).then(function (res) {
+
+                            var data = res.data;
+
+                            if (data.success) {
+
+                                mui.toast(data.message);
+
+                                setTimeout(() => {
+                                    that.initPage(type,page)
+                                }, 1000);
+                                
+                            }
+                            
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
+                    } else {
+                        mui.toast('取消申诉！');
+                    }
+                })
+            },
+            // 申诉
+            handleAppeal(id) {
+                var token = get('token');
+                var that = this;
+                var page = this.page;
+                var type = this.navListIndex;
+                var btnVal = ["取消", "确定"]
+                mui.prompt('', '请输入申诉理由', '申诉', btnVal, function (e) {
+                    if (e.index == 1) {
+                        axios({
+                            url: apqurl + '/api/product/complain',
+                            method: 'POST',
+                            params: {
+                                accessToken: token,
+                                matchID: id,
+                                remark: e.value
+                            }
+                        }).then(function (res) {
+
+                            var data = res.data;
+                            if (data.success) {
+
+                                mui.toast(data.message);
+                                
+                                setTimeout(() => {
+                                    that.initPage(type,page)
+                                }, 1000);
+
+                            }else{
+
+                                mui.toast(data.message);
+
+                            }
+
+                        }).catch(function (res) {
+                            console.log(res);
+                        });
+                    } else {
+                        mui.toast('取消');
+                    }
+                })
+
+            },
+          
+            // 跳转 确认收款
+            handleConfirmMoney(id){
+                mui.openWindow({
+                    url: "./buyerInfo.html?state=2&id=" + id
+                })
+            },
+            // 跳转 买家详情
+            handleGoToBuyerInfo(id) {
+                mui.openWindow({
+                    url: "./buyerInfo.html?id=" + id
+                })
+            }
+        }
+
+
+    })
+</script>
+
+</html>

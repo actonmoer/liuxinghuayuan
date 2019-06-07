@@ -1,0 +1,423 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<style>
+		/* 布局 */
+		.flex-row {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.flex-row-center {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.flex-row-reverse {
+			display: flex;
+			flex-direction: row-reverse;
+			align-items: center;
+		}
+
+		.flex-row-between {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.flex-row-around {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+		}
+
+		.flex-row-wrap {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.flex-column {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.flex-column-reverse {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+
+		.flex-column-center {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.flex-column-end {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+		}
+
+		.flex-vertical-centering {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* 宽 */
+		.w10 {
+			width: 10%;
+		}
+
+		.w20 {
+			width: 20%;
+		}
+
+		.w30 {
+			width: 30%;
+		}
+
+		.w35 {
+			width: 35%;
+		}
+
+		.w40 {
+			width: 40%;
+		}
+
+		.w50 {
+			width: 50%;
+		}
+
+		.w60 {
+			width: 60%;
+		}
+
+		.w70 {
+			width: 70%;
+		}
+
+		.w80 {
+			width: 80%;
+		}
+
+		.w90 {
+			width: 90%;
+		}
+
+		.w100 {
+			width: 100%;
+		}
+
+		/*间距*/
+		.mt5 {
+			margin-top: 5px;
+		}
+
+		.mt8 {
+			margin-top: 8px;
+		}
+
+		.mt10 {
+			margin-top: 10px;
+		}
+
+		.mt15 {
+			margin-top: 15px;
+		}
+
+		.mt20 {
+			margin-top: 20px;
+		}
+
+		.mt25 {
+			margin-top: 25px;
+		}
+
+		.mt30 {
+			margin-top: 30px;
+		}
+
+		.mt40 {
+			margin-top: 40px;
+		}
+
+		.mt50 {
+			margin-top: 50px;
+		}
+
+		.mt60 {
+			margin-top: 60px;
+		}
+
+		.ml10 {
+			margin-left: 10px;
+		}
+
+		/*字体颜色*/
+		.colorWhite {
+			color: white;
+		}
+
+		.colorAAA {
+			color: #AAAAAA;
+		}
+
+		.colorF4BB00 {
+			color: #F4BB00;
+		}
+
+		.color1069A4 {
+			color: #1069A4;
+		}
+
+		/*字体大小*/
+		.font22 {
+			font-size: 22px;
+		}
+
+		input {
+			border: none;
+			outline: none;
+			background-color: rgba(255, 255, 255, 0);
+		}
+
+		.mui-bar {
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			background: #fff;
+		}
+
+		#head {
+			background-color: #1069A4;
+			color: white;
+		}
+
+		#head a {
+			color: white;
+		}
+
+		#head h1 {
+			color: white;
+		}
+
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.main {
+			padding: 0 10px 20px 10px;
+			background-color: white;
+			margin-top: 50px;
+		}
+
+		.item {
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+
+		.item div span {
+			margin-top: 3px;
+		}
+
+		.item div {
+			font-size: 13px;
+		}
+
+		nav img {
+			width: 24px;
+			height: 24px;
+		}
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="appointmentRecord" v-cloak>
+		<header class="mui-bar mui-bar-nav" id="head">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">预约记录</h1>
+		</header>
+		<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>预约记录</span>
+				<span></span>
+			</header>-->
+		<div class="main">
+			<div v-for="item in list">
+				<div class="item flex-row-between" v-if="item.state == 2">
+					<div class="flex-column">
+						<span>{{item.name}}</span>
+						<span class="colorAAA">{{dateFormat(item.addTime,'yyyy-MM-dd hh:mm:ss')}}</span>
+					</div>
+					<div class="flex-column-end">
+						<span class="colorF4BB00 font22">-{{item.amount}}</span>
+						<span class="mt10 color1069A4">| 预约失败</span>
+					</div>
+				</div>
+				<div class="item flex-row-between" v-else-if="item.state == 0">
+					<div class="flex-column">
+						<span>{{item.name}}</span>
+						<span class="colorAAA">{{dateFormat(item.addTime,'yyyy-MM-dd hh:mm:ss')}}</span>
+					</div>
+					<div class="flex-column-end">
+						<span class="colorF4BB00 font22">-{{item.amount}}</span>
+						<span class="mt10 color1069A4">| 预约中</span>
+					</div>
+				</div>
+				<div class="item flex-row-between" @click="item.matchStatus == 1?toPay(item.matchID):handleGoToOrderInfo(item.matchID)" v-else>
+					<div class="flex-column">
+						<span>{{item.name}}</span>
+						<span class="colorAAA">{{dateFormat(item.addTime,'yyyy-MM-dd hh:mm:ss')}}</span>
+						<span class="colorAAA">卖家手机号：{{item.sellUserName}}</span>
+						<span class="colorAAA">卖家编号：{{item.sellUserNo}}</span>
+					</div>
+					<div class="flex-column-end">
+						<span class="colorF4BB00 font22">-{{item.amount}}</span>
+						<span class="mt10"  v-if="item.matchStatus == 1">待付款 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else-if="item.matchStatus == 2"> 待卖方收款 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else-if="item.matchStatus == 3">交易完成 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else-if="item.matchStatus == 4">申诉 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else-if="item.matchStatus == 5">取消申诉 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else-if="item.matchStatus == 6">申述完成 | 预约完成<span class="colorAAA">(查看)</span></span>
+						<span class="mt10"  v-else>已过期 | 预约完成<span class="colorAAA">(查看)</span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" @tap='toHome'>
+				<span class="mui-icon"><img src="img/shichang2@2x.png" /></span>
+				<span class="mui-tab-label">商场</span>
+			</a>
+			<a class="mui-tab-item" @tap='toGarden'>
+				<span class="mui-icon"><img src="img/hua@2x.png" /></span>
+				<span class="mui-tab-label">我的花园</span>
+			</a>
+			<a class="mui-tab-item" @tap='toUser'>
+				<span class="mui-icon"><img src="img/wode@2x.png" /></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>-->
+	</div>
+</body>
+
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script type="text/javascript">
+	mui.init();
+	function reloadData(){
+		location.reload();
+	}
+	new Vue({
+		el: '#appointmentRecord',
+		data: {
+			list: []
+		},
+		methods: {
+
+		},
+
+		created: function () {
+			var token = get('token');
+			var that = this;
+			axios({
+				url: apqurl + '/api/product/bookingList',
+				method: 'GET',
+				params: {
+					accessToken: token
+				}
+			}).then(function (res) {
+				var data = res.data;
+				console.log(res);
+				that.list = data.data;
+			}).catch(function (res) {
+				console.log(res);
+			});
+		},
+		methods: {
+			handleGoToOrderInfo(id) {
+				mui.openWindow({
+					url: './sellerInfo.html?id=' +id
+				})
+			},
+			toHome(){
+				mui.openWindow({
+					url:'./home.html',
+					id:'home'
+				})
+			},
+			toGarden(){
+				mui.openWindow({
+					url:'./myGarden.html',
+					id:'myGarden'
+				})
+			},
+			toUser(){
+				mui.openWindow({
+					url:'./user.html',
+					id:'user'
+				})
+			},
+			toPay(id){
+				mui.openWindow({
+					url: './appointmentDetails.html?id=' +id
+				})
+			},
+			//时间转换
+			dateFormat(date, format) {
+				date = new Date(date);
+				var map = {
+					"M": date.getMonth() + 1, //月份
+					"d": date.getDate(), //日
+					"h": date.getHours(), //小时
+					"m": date.getMinutes(), //分
+					"s": date.getSeconds(), //秒
+					"q": Math.floor((date.getMonth() + 3) / 3), //季度
+					"S": date.getMilliseconds() //毫秒
+				};
+				format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+					var v = map[t];
+					if (v !== undefined) {
+						if (all.length > 1) {
+							v = '0' + v;
+							v = v.substr(v.length - 2);
+						}
+						return v;
+					} else if (t === 'y') {
+						return (date.getFullYear() + '').substr(4 - all.length);
+					}
+					return all;
+				});
+				return format;
+			}
+		},
+		mounted: function () {
+
+		},
+		destoryed: function () {
+
+		}
+	});
+</script>
+
+</html>

@@ -1,0 +1,609 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		.colorAAA{color: #AAAAAA;}
+		
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		.mui-bar{
+		 -webkit-box-shadow: none;
+		 box-shadow: none;
+		 background: #48C9A7;
+		}
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.mainbg{
+			margin-top: 54px;
+			background-color: white;
+		}
+		.main{
+			width: 92%;
+			margin-left: 4%;
+			font-size: 14px;
+			padding-bottom: 30px;
+		}
+		.main input{
+			width: 40%;
+		}
+		.main div:last-child{
+			border: none;
+		}
+		.line{
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.account_number div{
+			flex: 1;
+			text-align: center;
+			color: white;
+			padding: 8px;
+			border-radius: 5px;
+			margin: 5px 10px 15px 10px;
+		}
+		.account_number div:nth-child(1){
+			background-image: url("img/yinlian@2x (2).png");;
+			background-repeat: no-repeat;
+  			background-size: cover;
+		}
+		.account_number div:nth-child(2){
+			background-image: url("img/zhifunao@2x.png");;
+			background-repeat: no-repeat;
+  			background-size: cover;
+		}
+		.account_number div:nth-child(3){
+			background-image: url("img/weizi@2x.png");;
+			background-repeat: no-repeat;
+  			background-size: cover;
+		}
+		.determine{
+			margin-left: 5%;
+		}
+		.determine,.queding,.queding2{
+			width: 90%;
+			margin-top: 30px;
+			color: white;
+			background-color: #1069A4;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 5px;
+		}
+		/*遮罩层*/
+		.bg{
+			/*display: none;*/
+			position: absolute; 
+			top: 0%; left: 0%; width: 100%; height: 100%; 
+			background-color: black; 
+			z-index:10; 
+			-moz-opacity: 0.7; 
+			opacity:.70; 
+			filter: alpha(opacity=70);
+		}
+		/*银行卡弹窗*/
+		#yhkPopover{
+			/*display: none;*/
+			width: 86%;
+        	position: fixed;
+        	z-index: 20;
+        	top: 25%;
+        	left: 7%;
+       		background-color: white;
+       		border-radius: 3px;
+       		overflow: hidden;
+       		padding: 20px 10px;
+		}
+		#yhkPopover div{
+			padding: 15px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		/*微信 支付宝弹窗*/
+		#zfbPopover,#wxPopover{
+			/*display: none;*/
+			width: 86%;
+        	position: fixed;
+        	z-index: 20;
+        	top: 25%;
+        	left: 7%;
+       		background-color: white;
+       		border-radius: 3px;
+       		overflow: hidden;
+       		padding: 20px 10px;
+		}
+		#zfbPopover div{
+			padding: 15px 0;
+		}
+		#zfbPopover div[class="w100 flex-row-between"]{
+			padding: 15px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		#wxPopover div{
+			padding: 15px 0;
+		}
+		#wxPopover div[class="w100 flex-row-between"]{
+			padding: 15px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="appointmentDetails" v-cloak>
+			<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>预约详情</span>
+				<span></span>
+			</header>-->
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">预约详情</h1>
+		    </header>
+			<div class="w100 mainbg">
+				<div class="main flex-column">
+					<div class="line w100 flex-row-between">
+						<span class="w30">卖方编号：</span>
+						<span class="colorAAA">{{userNo}}</span>
+					</div>
+					<div class="line w100 flex-row-between">
+						<span class="w30">购买价格：</span>
+						<span class="colorAAA">{{buyAmount}}</span>
+					</div>
+					<div class="line w100 flex-row-between">
+						<span class="w30">购买时间：</span>
+						<span class="colorAAA">{{buyTime | formatDate}}</span>
+					</div>
+					<div class="line w100 flex-row-between">
+						<span class="w30">卖家手机号：</span>
+						<span class="colorAAA">{{buyUserName}}</span>
+					</div>
+					<div class="mt10">
+						<div>卖家收款账号：</div>
+						<div class="account_number mt10 flex-row-around">
+							<div id="yhk" class="" @click="yhkshow()">银行卡</div>
+							<div id="zfb" class="" @click="zfbshow()">支付宝</div>
+							<div id="wx" class="" @click="wxshow()">微信</div>
+						</div>
+					</div>
+					<div class="mt10 w100 flex-row-center">
+						<span class="w30">上传凭证：</span>
+						<img class="w70" :src='QRimg' id="QRCode" onclick="browerfile.click()"/>
+						<input type="file" style="display:none;" id="browerfile" @change="uploadFile" />
+					</div>
+				</div>
+			</div>
+			<div class="determine" @click="determine()">提交</div>
+			
+			<!--<div id="yhkPopover" class="mui-popover">
+			  <ul class="mui-table-view">
+			    <li class="mui-table-view-cell"><a href="#">Item1</a></li>
+			    <li class="mui-table-view-cell"><a href="#">Item2</a></li>
+			    <li class="mui-table-view-cell"><a href="#">Item3</a></li>
+			  </ul>
+			</div>-->
+			<div class="bg" v-if="bg==1?true:false" @click="hide()"></div>
+			<div id="yhkPopover" class="flex-column-center" v-if="yhkPopover==1?true:false">
+				<div class="w100 flex-row-between">
+					<span>银行名称</span>
+					<span class="colorAAA">{{yhkMsg.bankName}}</span>
+				</div>
+				<div class="w100 flex-row-between">
+					<span>银行卡姓名</span>
+					<span class="colorAAA">{{yhkMsg.realName}}</span>
+				</div>
+				<div class="w100 flex-row-between">
+					<span>银行卡账号</span>
+					<span class="colorAAA">{{yhkMsg.account}}</span>
+				</div>
+				<div class="w100 flex-row-between">
+					<span>开户银行</span>
+					<span class="colorAAA">{{yhkMsg.openingBank}}</span>
+				</div>
+				<div class="queding" @click="hide()">确定</div>
+			</div>
+			<div id="zfbPopover" class="flex-column-center" v-if="zfbPopover==1?true:false">
+				<div class="w100 flex-row-between">
+					<span>支付宝账号</span>
+					<span class="colorAAA">{{zfbMsg.account}}</span>
+				</div>
+				<div class="w100 flex-row-between">
+					<span>支付宝姓名</span>
+					<span class="colorAAA">{{zfbMsg.realName}}</span>
+				</div>
+				<div class="w100">
+					<span>支付宝收款码</span>
+				</div>
+				<div class="w100 flex-vertical-centering">
+					<img class="w40" :src="zfbMsg.paymentCode" />
+				</div>
+				<div class="queding2" @click="hide()">确定</div>
+			</div>
+			<div id="wxPopover" class="flex-column-center" v-if="wxPopover==1?true:false">
+				<div class="w100 flex-row-between">
+					<span>微信账号</span>
+					<span class="colorAAA">{{wxMsg.account}}</span>
+				</div>
+				<div class="w100 flex-row-between">
+					<span>微信姓名</span>
+					<span class="colorAAA">{{wxMsg.realName}}</span>
+				</div>
+				<div class="w100">
+					<span>微信收款码</span>
+				</div>
+				<div class="w100 flex-vertical-centering">
+					<img class="w40" :src="wxMsg.paymentCode" />
+				</div>
+				<div class="queding2" @click="hide()">确定</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		
+		<script src="./js/layIn.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		    new Vue({
+				el:'#appointmentDetails',
+				data:{
+					token:get('token'),
+					bg:0,//遮罩层
+		        	yhkPopover:0,//银行卡弹窗
+		        	zfbPopover:0,//支付宝弹窗
+		        	wxPopover:0,//微信弹窗
+		        	// matchId:'',    //订单id
+		        	imgUrl:'',//图片base64
+		        	QRimg:'./img/addPicture@2x.png',//图片地址
+		        	
+		        	userNo:"CN59338",//用户编号,
+			        buyAmount:"1090.00",//购买价格,
+			        buyTime:"2019-5-5 15:37:33",//购买时间,
+			        buyUserName:"15769845632",//购买手机号,
+			        
+			        zhId:"",
+			        yhkMsg:{},
+			        wxMsg:{},
+			        zfbMsg:{}
+				},
+				filters: {
+			      formatDate: function (value) {
+			        let date = new Date(value);
+			        let y = date.getFullYear();
+			        let MM = date.getMonth() + 1;
+			        MM = MM < 10 ? ('0' + MM) : MM;
+			        let d = date.getDate();
+			        d = d < 10 ? ('0' + d) : d;
+			        let h = date.getHours();
+			        h = h < 10 ? ('0' + h) : h;
+			        let m = date.getMinutes();
+			        m = m < 10 ? ('0' + m) : m;
+			        let s = date.getSeconds();
+			        s = s < 10 ? ('0' + s) : s;
+			        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+			      }
+			    },
+				methods:{
+					//上传图片
+					uploadFile(e){
+						// mui.showLoading("正在压缩图片","div");
+						var that = this;
+						var dom = document.getElementById('browerfile');
+						var files = dom.files;
+						if(files.length != 0){
+							var objUrl = this.getObjectURL(files[0]);
+							if(objUrl){
+								this.QRimg = objUrl
+							}
+							var file = e.target.files[0];
+							var reader = new FileReader();
+							reader.readAsDataURL(file); // 读出 base64
+							reader.onloadend = function () {
+								// 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+								// 下面逻辑处理
+//								that.imgUrl = reader.result;
+								that.convert(reader.result);
+							};
+						}
+					},
+					getObjectURL(file) {
+						var url = null;
+						if (window.createObjectURL != undefined) {
+							url = window.createObjectURL(file); //basic
+						} else if (window.URL != undefined) {
+							url = window.URL.createObjectURL(file);
+						} else if (window.webkitURL != undefined) {
+							url = window.webkitURL.createObjectURL(file);
+						}
+						return url;
+					},
+					//弹窗显示与隐藏
+					yhkshow(){
+						this.getYhkMsg();
+						this.bg=1;
+						this.yhkPopover=1;
+					},
+					zfbshow(){
+						this.getZfbMsg();
+						this.bg=1;	
+						this.zfbPopover=1;
+					},
+					wxshow(){
+						this.getWxMsg();
+						this.bg=1;
+						this.wxPopover=1;
+					},
+					hide(){
+						this.wxPopover = 0; 
+						this.zfbPopover=0;
+						this.yhkPopover=0;
+						this.bg=0;
+					},
+					//预约详情请求
+					getMsg(){
+						var id = getUrlParam('id')
+						var that = this;
+						console.log(that.token);
+						axios({
+		                    url:apqurl+'/api/product/sellInfo',
+		                    methods:'GET',
+		                    params:{
+		                        accessToken:that.token,
+		                        matchID:id,
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.userNo = data.data.userNo;
+								that.buyAmount = data.data.buyAmount;
+								that.buyTime = data.data.buyTime;
+								that.buyUserName = data.data.buyUserName;
+								that.zhId = data.data.userID;
+							}else{
+								mui.toast(data.message);
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					//获取银行卡，支付宝，微信，信息
+					getYhkMsg(){
+						var that = this;
+						axios({
+		                    url:apqurl+'/api/user/getUserBankInfo',
+		                    method:'GET',
+		                    params:{
+		                        accessToken:that.token,
+		                        userID:that.zhId
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.yhkMsg = data.data;
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					getZfbMsg(){
+						var that = this;
+						axios({
+		                    url:apqurl+'/api/user/getUserAlipayInfo',
+		                    methods:'GET',
+		                    params:{
+		                        accessToken:that.token,
+		                        userID:that.zhId
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.zfbMsg = data.data;
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					getWxMsg(){
+						var that = this;
+						axios({
+		                    url:apqurl+'/api/user/getUserWecharInfo',
+		                    methods:'GET',
+		                    params:{
+		                        accessToken:that.token,
+		                        userID:that.zhId
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.wxMsg = data.data;
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					//提交，上传凭证
+					determine(){
+						if(this.imgUrl==''){
+							mui.toast('请上传凭证后提交！');
+							return false;
+						}
+//						console.log(this.imgUrl);
+						var that = this;
+						var matchId = getUrlParam("id")
+						mui.ajax({
+							url:apqurl+'/api/product/uploadCredentials',
+							type:'POST',
+							data:{
+							    accessToken:that.token,
+							    matchID:matchId,
+							    voucher:that.imgUrl
+							},
+							success:function(res){
+								console.log(res);
+								var data = res.data
+								if(res.success){
+									mui.toast('提交成功');
+									setTimeout(function(){
+										// mui.openWindow({
+										// 	url:"./appointmentRecord.html",
+										// 	id:'appointmentRecord'
+										// })
+										function plusReady() {
+											mui.plusReady(function () {
+												var self = plus.webview.currentWebview();
+												var opener = self.opener();
+												//此句调用父页面js
+												opener.evalJS('reloadData()');
+												self.close();
+											})
+										}
+										if (window.plus) {
+											plusReady();
+										} else {
+											document.addEventListener('plusready', plusReady, false);
+										}
+									},1000);
+								}else{
+									mui.toast(dat.message);
+								}
+							},
+							error:function(res){
+								console.log(res);
+							}
+						})
+					},
+					//处理图片
+					convert(img64) {
+						var that = this;
+				        this.compress(img64, 400, 0.5).then(function (val) {
+				//          console.log("2:"+val);
+	//			            that.getImgSize(val);//判断base64图片流大小
+	//			            that.compressImg = val;
+				            that.imgUrl = val;
+				            // mui.hideLoading();
+				        });
+				    },
+				    compress(base64String, w, quality) {
+				    	
+						var getMimeType = function (urlData) {
+					    var arr = urlData.split(',');
+					    var mime = arr[0].match(/:(.*?);/)[1];
+					    // return mime.replace("image/", "");
+					            return mime;
+					        };
+					        var newImage = new Image();
+					        var imgWidth, imgHeight;
+					 
+					        var promise = new Promise(resolve => newImage.onload = resolve);
+					        newImage.src = base64String;
+					        return promise.then(() => {
+					            imgWidth = newImage.width;
+					            imgHeight = newImage.height;
+					            var canvas = document.createElement("canvas");
+					    var ctx = canvas.getContext("2d");
+					        if (Math.max(imgWidth, imgHeight) > w) {
+					            if (imgWidth > imgHeight) {
+					                canvas.width = w;
+					                canvas.height = w * imgHeight / imgWidth;
+					            } else {
+					                canvas.height = w;
+					                canvas.width = w * imgWidth / imgHeight;
+					            }
+					        } else {
+					            canvas.width = imgWidth;
+					            canvas.height = imgHeight;
+					        }
+					        ctx.clearRect(0, 0, canvas.width, canvas.height);
+					        ctx.drawImage(newImage, 0, 0, canvas.width, canvas.height);
+					        var base64 = canvas.toDataURL(getMimeType(base64String), quality);
+	//				        console.log(base64);
+					        return base64;
+					    });
+					},
+					getImgSize(str) {
+					    //获取base64图片大小，返回KB数字
+					    //这里根据自己上传图片的格式进行相应修改
+					    var strLength = str.length;
+					    var fileLength = parseInt(strLength - (strLength / 8) * 2);
+					    // 由字节转换为KB
+					    var size = "";
+					    size = (fileLength / 1024).toFixed(2);
+					    console.log(size);
+				  	}
+				},
+		        created:function(){
+					this.getMsg();
+				},
+				mounted:function() {
+					
+				},
+				destoryed:function(){
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

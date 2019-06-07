@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href="css/mui.css" rel="stylesheet" />
+  <link href="css/mui.zoom.css" rel="stylesheet" />
+  <title>预约详情</title>
+</head>
+<style type="text/css">
+  .mui-bar {
+    background: #1069a4 !important;
+  }
+
+  .mui-title {
+    color: #fff;
+  }
+
+  .mui-content {
+    background: #fff;
+  }
+
+  .buyer-info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 11px;
+    padding-right: 15px;
+    border-bottom: 1px #dcdcdc solid;
+    height: 48px;
+    line-height: 48px;
+    font-size: 13px;
+  }
+
+  .buyer-info-last-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 11px;
+    padding: 10px 15px 10px 0;
+    font-size: 13px;
+  }
+
+  .buyer-info-last-item-left {
+    flex-shrink: 1;
+  }
+
+  .buyer-info-item-last-right {
+    margin-left: 5px;
+    flex: 1;
+  }
+
+  .buyer-info-item-last-right img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .buyer-info-item-right {
+    color: #535353;
+  }
+
+  .black-btn {
+    margin: 20px 8px;
+    background-color: #1069a4;
+    border-radius: 6px;
+    color: #fff;
+    height: 53px;
+    line-height: 53px;
+    text-align: center;
+  }
+
+  .cor-white {
+    color: #fff;
+  }
+
+  .appointmentBox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 10;
+  }
+
+  .appointment {
+    background: #fff;
+    text-align: center;
+    border-radius: 10px;
+    width: 85%;
+    margin: 14rem auto;
+  }
+
+  .appointment p {
+    color: #000000;
+    margin: 0;
+    padding: 30px;
+  }
+
+  .btnArr {
+    display: flex;
+    color: #999;
+    border-top: 1px solid #eee;
+  }
+
+  .btnArr>span {
+    width: 50%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .determine {
+    color: #5faaff;
+    border-left: 1px solid #eee;
+  }
+  .tips{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 250px;
+    height: 250px;
+    background-color: seagreen;
+    border-radius: 10px;
+    line-height: 250px;
+    text-align: center;
+    font-size: 18px;
+  }
+</style>
+
+<body>
+  <header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+    <h1 class="mui-title">预约详情</h1>
+  </header>
+  <div class="mui-content" id="buyerInfo" v-cloak>
+
+    <div class="buyer-info-item">
+      <div>买家编号：</div>
+      <div class="buyer-info-item-right">{{buyerInfo.userNo}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>购买价格：</div>
+      <div class="buyer-info-item-right">{{buyerInfo.buyAmount}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>购买时间：</div>
+      <div class="buyer-info-item-right">{{buyerInfo.buyTime | formatDate}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>买家手机号：</div>
+      <div class="buyer-info-item-right">{{buyerInfo.buyUserName}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>汇款时间：</div>
+      <div class="buyer-info-item-right" v-if="buyerInfo.PaymentTime">{{buyerInfo.PaymentTime | formatDate}}</div>
+      <div class="buyer-info-item-right" v-else></div>
+    </div>
+    <div class="buyer-info-last-item">
+      <div class="buyer-info-last-item-left">打款凭据：</div>
+      <div class="buyer-info-item-last-right">
+        <img :src="buyerInfo.Voucher" alt="" data-preview-src="" data-preview-group="1">
+      </div>
+    </div>
+
+  </div>
+
+  <div id="black-btn">
+
+    <!-- <div class="tips">确认成功</div> -->
+
+    <div class="appointmentBox" v-if="isShowLoginOut">
+      <div class="appointment">
+        <p>确定已经收款吗？</p>
+        <div class="btnArr">
+          <span class="cancle" @click="handleCancelLoginOut">取消</span>
+          <span class="determine" @click="handleConfirmMoney">确定</span>
+        </div>
+      </div>
+    </div>
+    <div class="black-btn" @click="handleMoney" v-if="state">确认收款</div>
+    <div class="black-btn" @click="handleGoToBack" v-else>返回</div>
+  </div>
+
+  <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/mui.js"></script>
+  <script src="js/mui.zoom.js"></script>
+  <script src="js/mui.previewimage.js"></script>
+  <script src="./js/axios.min.js"></script>
+  <script src="./js/layIn.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#buyerInfo',
+      data: {
+        buyerInfo: "",
+      },
+      created() {
+
+        this.initPage();
+
+      },
+      filters: {
+        formatDate(date) {
+
+          var time = new Date(date);
+          var y = time.getFullYear();
+          var m = time.getMonth() + 1;
+          m = m < 10 ? ('0' + m) : m;
+          var d = time.getDate();
+          d = d < 10 ? ('0' + d) : d;
+          var h = time.getHours();
+          h = h < 10 ? ('0' + h) : h;
+          var min = time.getMinutes();
+          min = min < 10 ? ('0' + min) : min;
+          var s = time.getSeconds();
+          s = s < 10 ? ('0' + s) : s;
+
+          return y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+
+        }
+
+      },
+      methods: {
+        // init Page
+        initPage() {
+          var token = get('token');
+          var matchID = getUrlParam("id");
+
+          var that = this;
+
+          axios({
+            url: apqurl + '/api/product/buyInfo',
+            method: 'GET',
+            params: {
+              accessToken: token,
+              matchID
+            }
+          }).then(function (res) {
+            var data = res.data;
+            if (data.success) {
+
+              that.buyerInfo = data.data;
+              mui.previewImage();
+            }
+          }).catch(function (res) {
+            console.log(res);
+          })
+
+        }
+      }
+    })
+
+    new Vue({
+      el: '#black-btn',
+      data() {
+        return {
+          state: "",
+          matchID: "",
+          isShowLoginOut: false
+        }
+      },
+      created() {
+        var matchID = getUrlParam("id");
+        var state = getUrlParam("state");
+        this.state = state;
+        this.matchID = matchID;
+
+      },
+      methods: {
+        // 确认收款
+        handleConfirmMoney() {
+          var id = this.matchID;
+          var token = get('token');
+          var that = this;
+
+          axios({
+            url: apqurl + '/api/product/confirmReceipt',
+            method: 'POST',
+            params: {
+              accessToken: token,
+              matchID: id
+            }
+          }).then(function (res) {
+
+            var data = res.data;
+
+            if (data.success) {
+
+              mui.toast(data.message);
+
+              setTimeout(() => {
+                mui.back()
+              }, 1000);
+
+            }
+
+          }).catch(function (res) {
+            console.log(res);
+          });
+
+
+        },
+        handleGoToBack() {
+
+          mui.back()
+
+        },
+        handleMoney() {
+
+          this.isShowLoginOut = true;
+
+        },
+        handleCancelLoginOut() {
+          this.isShowLoginOut = false;
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

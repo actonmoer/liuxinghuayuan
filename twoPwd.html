@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.css" rel="stylesheet" />
+</head>
+<style type="text/css">
+	.mui-bar {
+		background: #1069a4 !important;
+	}
+
+	.mui-title {
+		color: #fff;
+	}
+
+	.alter-name-content {
+		display: flex;
+		align-items: center;
+		margin-top: 15px;
+		background: #fff;
+		padding: 0 14px;
+		height: 53px;
+		font-size: 14px;
+	}
+
+	.phone {
+		margin-top: 57px;
+		padding-left: 14px;
+	}
+
+	.phone-top {
+		font-size: 12px;
+		color: #d2d2d2;
+	}
+
+	.phone-bottom {
+		color: #333333;
+		font-size: 14px;
+		line-height: 24px;
+	}
+
+	.alter-name-content-left {
+		flex-shrink: 1;
+		margin-right: 10px;
+	}
+
+	.alter-name-content-input {
+		flex: 1;
+		font-size: 14px;
+		margin: 0 !important;
+		padding: 0 !important;
+		display: block;
+		border: none !important;
+	}
+
+	.black-btn {
+		margin: 48px 8px;
+		background-color: #1069a4;
+		border-radius: 6px;
+		color: #fff;
+		height: 53px;
+		line-height: 53px;
+		text-align: center;
+	}
+
+	.cor-white {
+		color: #fff;
+	}
+
+	.msg {
+		display: flex;
+		align-items: center;
+		margin-top: 20px;
+		padding: 0 14px;
+		height: 53px;
+		font-size: 14px;
+		border-bottom: 1px solid #F2F2F2;
+		background-color: #fff;
+	}
+
+	.msg input {
+		font-size: 14px;		
+		margin-bottom: 0 !important;
+		border: none;
+	}
+
+	.tit {
+		/* width: 44%; */
+		white-space: nowrap;
+		font-size: 14px;
+	}
+
+	.code {
+		width: 45%;
+	}
+
+	.code>button {
+		width: 100px;
+		background: #1069a4;
+		color: #fff;
+		border: none;
+	}
+	.btn-status{
+		background-color: #929292 !important;
+	}
+</style>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+		<h1 class="mui-title">修改支付密码</h1>
+	</header>
+	<div id="twoPwd" v-cloak>
+		<div class="phone">
+			<div class="phone-top">*为确保账号安全，需要验证当前手机</div>
+			<div class="phone-bottom">当前绑定手机号：{{phone}}</div>
+		</div>
+		<div class="alter-name-content">
+			<div class="alter-name-content-left">新的支付密码：</div>
+			<input class="alter-name-content-input" type="password" placeholder="请输入新的支付密码" v-model="twoPassword">
+		</div>
+		<div class="msg">
+			<div class="tit">
+				短信验证码：
+			</div>
+			<div>
+				<input type="number" placeholder="请输入短信验证码" v-model="code" />
+			</div>
+			<div class="code">
+				<button @tap="getVerificationCode" :class="timerStatus?'btn-status':''">{{getCodeTxt}}</button>
+			</div>
+		</div>
+
+		<div class="black-btn" @click="handleClickTwoPwdBtn">确定</div>
+	</div>
+
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/mui.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/layIn.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#twoPwd',
+			data: {
+				phone: "",
+				twoPassword: '', // 二次新密码
+				code: '', // 验证码
+				getCodeTxt: "获取验证码",
+				timer: "",
+				sec: 60,
+				timerStatus: false,// 定时器状态
+
+			},
+			created() {
+				this.phone = get('phone')
+			},
+			watch: {
+				sec(val){
+					if(val == 0){
+						this.getCodeTxt = "获取验证码";
+						this.timerStatus = false;
+						this.sec = 60;
+						clearInterval(this.timer)
+					}
+				}
+			},
+			methods: {
+				// 点击确定按钮 
+				handleClickTwoPwdBtn() {
+					if (this.twoPassword.length == 0) {
+						mui.toast('支付密码不能为空 !');
+						return false;
+					}
+					if (this.code.length == 0) {
+						mui.toast('验证码不能为空 !');
+						return false;
+					}
+					var token = get('token')
+					axios({
+						url: apqurl + '/api/user/updatePayPwd',
+						method: 'POST',
+						params: {
+							accessToken: token,
+							newPwd: this.twoPassword,
+							code: this.code
+						}
+					}).then(function (res) {
+						var data = res.data;
+						if (data.success) {
+							mui.toast(data.message);
+							setTimeout(function(){
+                                location.href='set.html';
+								// Jump('set');
+							}, 1000);
+						} else {
+							mui.toast(data.message)
+						}
+					}).catch(function (res) {
+						console.log(res);
+					})
+
+				},
+				// 点击 验证码 按钮 
+				getVerificationCode() {
+					if(this.timerStatus){
+						return false;
+					}
+					this.getCodeTxt = "60 秒后点击"
+					this.timerStatus = true
+					
+					this.timer = setInterval(() => {
+						this.sec -= 1;
+						this.getCodeTxt = this.sec + " 秒后点击"
+	
+					}, 1000);
+					axios({
+						url: apqurl + '/api/comm/sms',
+						method: 'POST',
+						params: {
+							phone: this.phone,
+							type: 4
+						}
+					}).then(function (res) {
+						console.log(res)
+					}).catch(function (res) {
+						console.log(res);
+					})
+
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

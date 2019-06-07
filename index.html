@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <title>登录</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,
+        body{
+            background: #fff;
+        }
+        img{
+            width: 100%;
+            border-radius: 5px;
+        }
+        .mui-content{
+            padding-top: 30px;
+            background: #fff;
+        }
+        .logo{
+            width: 35%;
+            margin: auto;
+            border-radius: 5px;
+        }
+        .content{
+            width: 90%;
+            margin: auto;
+        }
+        .msg{
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            border-bottom: 1px solid #F2F2F2;
+        }
+        .msg input{
+            margin-bottom: 0 !important;
+            border:none;
+        }
+        .tit{
+            width: 40%;
+        }
+        .code{
+            width: 30%;
+        }
+        .btn{
+            width: 80%;
+            margin: 20px auto;
+        }
+        .btn>button{
+            width: 100%;
+            background: #1069A4;
+            color: #fff;
+            border:none;
+            line-height: 1.8rem;
+        }
+        .regAndChange{
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+        }
+        .regAndChange>div:nth-child(1){
+            color: #1069A4;
+        }
+        .regAndChange>div:nth-child(2){
+            color: #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+    <div class="mui-content" id="login" v-cloak>
+        <div class="logo">
+            <img :src= "imgUrl" />
+        </div>
+        <div class="content">
+            <div class="msg">
+                <div class="tit">
+                    手机号码：
+                </div>
+                <div>
+                    <input type="text" v-model="phonoNum" placeholder="输入手机号码" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    登录密码：
+                </div>
+                <div>
+                    <input type="password" v-model="userPwd" placeholder="输入登录密码" />
+                </div>
+            </div>
+            <div class="msg">
+                <div class="tit">
+                    验证码：
+                </div>
+                <div>
+                    <input type="number" v-model="codeNum" placeholder="输入验证码" />
+                </div>
+                <div class="code">
+                    <img :src="codeImg" @tap="imgClick" />
+                </div>
+            </div>
+        </div>
+        <div class="btn">
+            <button @tap="login">立即登录</button>
+        </div>
+        <div class="regAndChange">
+            <div @tap="register">注册</div>
+            <div @tap="forgetPwd">忘记密码?</div>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/layIn.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+    var phoneVerification = /^1[3456789]\d{9}$/;
+    new Vue({
+        el:'#login',
+        data:{
+            imgUrl:'./img/logo.png',
+            phonoNum:'',
+            userPwd:'',
+            codeNum:'',
+            randomNum:'',//四位验证码
+            codeImg:'',//四位验证码图片
+        },
+        mounted(){
+            this.getRanNum();
+            this.Refresh();
+			this.userPwd = '';
+			this.codeNum = '';
+			console.log(get('phone'))
+			if( get('phone') != null) {
+				var party = get('phone');
+				if(party != '') {
+					this.phonoNum = party;
+				}
+			}
+        },
+        methods:{
+            register:function(){
+                // mui.openWindow({
+                //     url:'./Sregister.html',
+                //     id:'register'
+                // })
+				location.href = 'Sregister.html';
+            },
+            forgetPwd:function(){
+                // mui.openWindow({
+                //     url:'./forgetPwd.html',
+                //     id:'forgetPwd'
+                // })
+				location.href = 'forgetPwd.html';
+            },
+            login:function(){
+                var that = this;
+                if(that.phonoNum.length == 0){
+                    mui.toast('请输入手机号码或用户名！');
+                    return false;
+                }
+                // if(!(phoneVerification.test(that.phonoNum))){
+                //     mui.toast('手机号码输入有误');
+                //     return false;
+                // }
+                if(that.userPwd.length == 0){
+                    mui.toast('请输入登录密码');
+                    return false;
+                }
+                if(that.codeNum == 0){
+                    mui.toast('请输入验证码');
+                    return false;
+                }
+                if(that.codeNum != that.randomNum){
+                    mui.toast('验证码输入有误！');
+					that.imgClick()
+                    return false;
+                }
+                
+                axios({
+                    url:apqurl+'/api/comm/login',
+                    method:'POST',
+                    params:{
+                        userName:that.phonoNum,
+                        loginPwd:that.userPwd
+                    }
+                }).then(function(res){
+                    var data = res.data;
+					set('token',data.data);
+					set('phone',that.phonoNum);
+                    if(data.success){
+						setTimeout(function(){
+							window.location.href = 'home.html';
+						},1000)
+             
+                    }
+                    mui.toast(data.message);
+                })
+            },
+
+            getRanNum(){
+				var that = this;
+				var str = '';
+				for(var i = 0; i < 4; i++) {
+					var ranNum = Math.ceil(Math.random() * 9);
+					str += ranNum.toString();
+				}
+				that.randomNum = str;
+			},
+            
+			Refresh(){
+				var that = this;
+				that.codeImg = apqurl+ '/api/comm/verificationCode?code='+that.randomNum;
+			},
+            imgClick(){
+                var that = this;
+                that.getRanNum();
+                that.Refresh();
+            }
+			
+        }
+
+    })
+
+</script>
+</html>

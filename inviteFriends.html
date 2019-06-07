@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-reverse{display: flex;flex-direction: column-reverse;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-column-end{display: flex;flex-direction: column;align-items: flex-end;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		.colorAAA{color: #AAAAAA;}
+		.colorF4BB00{color: #F4BB00;}
+		.color1069A4{color: #1069A4;}
+		
+		/*字体大小*/
+		.font22{font-size: 22px;}
+		
+		*{box-sizing: border-box;}
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		.top{
+			width: 94%;
+			margin: 54px 3% 10px 3%;
+			background-image: url("img/jiu@2x.png");;
+			background-repeat: no-repeat;
+  			background-size: 100%;
+  			height: 250px;
+  			color: white;
+		}
+		.top>div{
+			height: 125px;
+		}
+		.user{
+			line-height: 125px;
+			font-size: 26px;
+		}
+		.copyLink{
+			width: 80%;
+			text-align: center;
+			padding: 8px;
+			border-radius: 5px;
+			background-color: #1069A4;
+		}
+		.copyLink span{
+			display: inline-block;
+			width: 40%;
+			overflow:hidden;
+		    white-space: nowrap;
+		    text-overflow:ellipsis;
+		}
+		.createPoster{
+			width: 80%;
+			text-align: center;
+			padding: 8px;
+			border-radius: 5px;
+			background-color: #F4BB00;
+			margin-top: 10px;
+		}
+		.main{
+			width: 94%;
+			margin-left: 3%;
+			padding: 10px 10px 50px 10px;
+			background-color: white;
+		}
+		.mainHeader{
+			width: 100%;
+		}
+		.mainHeader img{
+			margin-right: 15px;
+			width: 8%;
+			height:auto;
+		}
+		.nav{
+			color: #666;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.nav div{
+			flex: 1;
+			text-align: center;
+			padding: 10px 0;
+		}
+		.nav div span{
+			padding: 10px 0;
+		}
+		.selected{
+			color: #1069A4;
+			border-bottom: 3px solid #1069A4;
+		}
+		.item{
+			padding: 15px 10px;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.footerNav{
+			width: 100%;
+			padding: 20px 0;
+			color: #1069A4;
+		}
+		.footerNav span{
+			padding: 3px 5px;
+			border-radius: 2px;
+			border: 1px solid #1069A4;
+		}
+		nav img{
+			width: 24px;
+			height: 24px;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="inviteFriends" v-cloak>
+			<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>邀请好友</span>
+				<span></span>
+			</header>-->
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">邀请好友</h1>
+		    </header>
+			<div class="top flex-vertical-centering">
+				<div class="user">{{userNo}}</div>
+				<div class="w100 flex-vertical-centering">
+					<div class="copyLink flex-row-around" @click="copyUrl2()">
+						<span id="copytext">{{generalizationUrl}}</span> 
+						<div>复制推广链接</div>
+				</div>
+					<div class="createPoster" @click="goto()">生成海报图</div>
+				</div>
+			</div>
+			<div class="main">
+				<div class="mainHeader flex-row-center">
+					<img src="img/22222@2x.png" />
+					<span>邀请记录</span>
+				</div>
+				<div class="nav flex-row-between" id="nav">
+					<div><span :class="type==0?'selected':''" @click="changeType(0)">全部</span></div>
+					<div><span :class="type==1?'selected':''" @click="changeType(1)">激活用户</span></div>
+					<div><span :class="type==2?'selected':''" @click="changeType(2)">未激活用户</span></div>
+				</div>
+				<!--列表-->
+				<div v-for="(item,index) in list">
+					<!--<div class="item flex-row-between">
+						<div>CN125645</div>
+						<div class="colorAAA">2019-5-5 15:37:33</div>
+					</div>-->
+					<div class="item flex-row-between">
+						<div>{{item.userNo}}</div>
+						<div class="colorAAA">{{item.addTime | formatDate}}</div>
+					</div>
+				</div>
+				<!---->
+				<div class="footerNav flex-row-around">
+					<span @click="changePage(1)">首页</span>
+					<span @click="changePage(page-1)">上一页</span>
+					<!--<span>{{page}} / {{pageTotal}}</span>-->
+					<span @click="changePage(page+1)">下一页</span>
+					<span @click="changePage(pageTotal)">末页</span>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		
+		<script src="./js/layIn.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+        	new Vue({
+		        el:'#inviteFriends',
+		        data:{
+		        	token:get('token'),
+		        	userNo:"",
+		        	generalizationUrl:"",
+		        	
+		        	list:[],//列表数据
+		        	page:1,//页码
+		        	rows:10,//条数
+		        	type:0,//类型 	0全部 1激活 2未激活
+		        	
+		        	pageTotal:1,
+		        },
+		        filters: {
+			      formatDate: function (value) {
+			        let date = new Date(value);
+			        let y = date.getFullYear();
+			        let MM = date.getMonth() + 1;
+			        MM = MM < 10 ? ('0' + MM) : MM;
+			        let d = date.getDate();
+			        d = d < 10 ? ('0' + d) : d;
+			        let h = date.getHours();
+			        h = h < 10 ? ('0' + h) : h;
+			        let m = date.getMinutes();
+			        m = m < 10 ? ('0' + m) : m;
+			        let s = date.getSeconds();
+			        s = s < 10 ? ('0' + s) : s;
+			        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+			      }
+			    },
+		        methods:{
+		        	goto(){
+		        		mui.openWindow({
+							url:"./share.html",
+							id:'share'
+						})
+		        	},
+		        	// 切换搜索类型
+					changeType(id) {
+					    var type = id;
+					    if (this.type == type) {
+					      return;
+					    } else {
+					    	//切换搜索类型，重置搜索
+					        this.type= type,
+					        this.list= [],
+					        this.page= 1, // 分页参数
+					        this.rows= 10,
+					        this.getlist();
+					    }
+					},
+					getlist(){
+		        		var that = this;
+		        		axios({
+		                    url:apqurl+'/api/user/invitationList',
+		                    method:'GET',
+		                    params:{
+		                        accessToken:that.token,//"16D9A0180A776BFC53842256FC200A52"
+		                        page:that.page,
+					        	rows:that.rows,
+					        	type:that.type,
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data;
+		                    if(data.success){
+								that.list = data.data.list.rows;
+								that.pageTotal = Math.ceil(data.data.list.total/10);
+								if(that.userNo == ""){
+									that.userNo = data.data.userNo;
+								}
+								if(that.generalizationUrl == ""){
+									that.generalizationUrl = data.data.generalizationUrl;
+								}
+							}
+		                    else{
+		                    	mui.toast(data.message);
+		                    	return;
+		                    }
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+		        	},
+					//分页
+		        	changePage(page){
+		        		if(page>this.pageTotal || page<1){
+		        			return;
+		        		}
+		        		this.list= [],
+				        this.page= page, // 分页参数
+				        this.rows= 10,
+				        this.getlist();
+		        	},
+		        	//复制
+		        	copyUrl2(){
+				        var Url2=document.getElementById("copytext").innerText;
+				        var oInput = document.createElement('input');
+				        oInput.value = Url2;
+				        document.body.appendChild(oInput);
+				        oInput.select(); // 选择对象
+				        document.execCommand("Copy"); // 执行浏览器复制命令
+				        oInput.className = 'oInput';
+				        oInput.style.display='none';
+				         mui.toast('复制成功');
+					}
+		        },
+		        created:function(){
+					this.getlist();
+				},
+				mounted:function(){
+		        	
+		        },
+				destoryed:function(){
+					
+				}
+		   });
+        	
+		</script>
+	</body>
+
+</html>

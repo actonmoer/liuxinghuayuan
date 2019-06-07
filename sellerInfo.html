@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href="css/mui.css" rel="stylesheet" />
+  <link href="css/mui.zoom.css" rel="stylesheet" />
+  <title>详情</title>
+
+</head>
+<style type="text/css">
+  .mui-bar {
+    background: #1069a4 !important;
+  }
+
+  .mui-title {
+    color: #fff;
+  }
+
+  .mui-content {
+    background: #fff;
+  }
+
+  .buyer-info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 11px;
+    padding-right: 15px;
+    border-bottom: 1px #dcdcdc solid;
+    height: 48px;
+    line-height: 48px;
+    font-size: 13px;
+  }
+
+  .buyer-info-last-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 11px;
+    padding: 10px 15px 10px 0;
+    font-size: 13px;
+  }
+
+  .buyer-info-last-item-left {
+    flex-shrink: 1;
+  }
+
+  .buyer-info-item-last-right {
+    margin-left: 5px;
+    flex: 1;
+  }
+
+  .buyer-info-item-last-right img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .buyer-info-item-right {
+    color: #535353;
+  }
+
+  .black-btn {
+    margin: 20px 8px;
+    background-color: #1069a4;
+    border-radius: 6px;
+    color: #fff;
+    height: 53px;
+    line-height: 53px;
+    text-align: center;
+  }
+
+  .cor-white {
+    color: #fff;
+  }
+</style>
+
+<body>
+  <header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+    <h1 class="mui-title">卖家详情</h1>
+  </header>
+  <div class="mui-content" id="sellerInfo" v-cloak>
+
+    <div class="buyer-info-item">
+      <div>卖家编号：</div>
+      <div class="buyer-info-item-right">{{sellerInfo.userNo}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>购买价格：</div>
+      <div class="buyer-info-item-right">{{sellerInfo.buyAmount}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>购买时间：</div>
+      <div class="buyer-info-item-right">{{sellerInfo.buyTime | formatDate}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>卖家手机号：</div>
+      <div class="buyer-info-item-right">{{sellerInfo.buyUserName}}</div>
+    </div>
+    <div class="buyer-info-item">
+      <div>汇款时间：</div>
+      <div class="buyer-info-item-right">{{sellerInfo.PaymentTime | formatDate}}</div>
+    </div>
+    <div class="buyer-info-last-item">
+      <div class="buyer-info-last-item-left">打款凭据：</div>
+      <div class="buyer-info-item-last-right">
+        <img :src="sellerInfo.voucher" alt="" data-preview-src="" data-preview-group="1">
+      </div>
+    </div>
+
+  </div>
+  <div class="black-btn" id="backBtn" @click="handleBack">返回</div>
+
+  <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/mui.js"></script>
+  <script src="js/mui.zoom.js"></script>
+  <script src="js/mui.previewimage.js"></script>
+  <script src="./js/axios.min.js"></script>
+  <script src="./js/layIn.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#sellerInfo',
+      data: {
+        sellerInfo: ""
+      },
+      mounted() {
+        this.initPage()
+      },
+      filters: {
+        formatDate(date) {
+
+          var time = new Date(date);
+          var y = time.getFullYear();
+          var m = time.getMonth() + 1;
+          m = m < 10 ? ('0' + m) : m;
+          var d = time.getDate();
+          d = d < 10 ? ('0' + d) : d;
+          var h = time.getHours();
+          h = h < 10 ? ('0' + h) : h;
+          var min = time.getMinutes();
+          min = min < 10 ? ('0' + min) : min;
+          var s = time.getSeconds();
+          s = s < 10 ? ('0' + s) : s;
+
+          return y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+        }
+
+      },
+      methods: {
+        // initPage
+
+        initPage() {
+          var token = get('token');
+          var matchID = getUrlParam("id");
+          var that = this;
+          axios({
+            url: apqurl + '/api/product/sellInfo',
+            method: 'GET',
+            params: {
+              accessToken: token,
+              matchID: matchID
+            }
+          }).then(function (res) {
+            console.log(res)
+            var data = res.data;
+            if (data.success) {
+              that.sellerInfo = data.data;
+
+              mui.previewImage();
+            }
+          }).catch(function (res) {
+            console.log(res);
+          })
+        }
+
+      }
+    })
+    new Vue({
+      el: '#backBtn',
+      methods: {
+        handleBack() {
+          mui.back()
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

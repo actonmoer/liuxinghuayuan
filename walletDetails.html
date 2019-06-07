@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		.colorAAA{color: #AAAAAA;}
+		.colorF4BB00{color: #F4BB00;}
+		.color1069A4{color: #1069A4;}
+		
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+			margin-right: 20px;
+		}*/
+		.mui-bar{
+		 -webkit-box-shadow: none;
+		 box-shadow: none;
+		 background-color: #48C9A7;
+		}
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		.duihuan{
+			font-size: 12px !important;
+			margin-top: 6px;
+		}
+		.top{
+			width: 92%;
+			background-color: white;
+			padding: 20px;
+			margin: 54px 4% 10px 4%;
+			color: #1069A4;
+		}
+		.top b{
+			font-size: 24px;
+		}
+		.main{
+			background-color: white;
+		}
+		.nav{
+			color: #666;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.nav div{
+			flex: 1;
+			text-align: center;
+			padding: 10px 0;
+		}
+		.nav div span{
+			padding: 10px 0;
+		}
+		.selected{
+			color: #1069A4;
+			border-bottom: 3px solid #1069A4;
+		}
+		.item{
+			padding: 10px;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.item div span{
+			margin-top: 3px;
+		}
+		.item div:last-child{
+			font-size: 22px;
+		}
+		.footerNav{
+			width: 100%;
+			padding: 20px;
+			color: #1069A4;
+		}
+		.footerNav span{
+			padding: 3px 5px;
+			border-radius: 2px;
+			border: 1px solid #1069A4;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="walletDetails" v-cloak>
+			<!--<header class="header flex-row-between colorWhite">
+				<img src="img/back@2x.png" />
+				<span>钱包明细</span>
+				<span>兑换</span>
+			</header>-->
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">钱包明细</h1>
+		        <span class="mui-icon mui-icon-right-nav mui-pull-right duihuan" @click="goto()">兑换</span>
+		    </header>
+			<div class="top flex-vertical-centering">
+				<b>{{amount}}</b>
+				<span class="mt10">当前大花园钱包</span>
+			</div>
+			<div class="main">
+				<div class="nav flex-row-between" id="nav">
+					<div><span :class="type==2?'selected':''" @click="changeType(2)">全部</span></div>
+					<div><span :class="type==1?'selected':''" @click="changeType(1)">收入</span></div>
+					<div><span :class="type==0?'selected':''" @click="changeType(0)">支出</span></div>
+				</div>
+				<!--列表-->
+				<!--<div class="item flex-row-between">
+					<div class="flex-column">
+						<span>转账转出</span>
+						<span class="colorAAA">2019-5-5 15:37:33</span>
+						<span class="colorAAA">来源用户:</span>
+					</div>
+					<div class="color1069A4">-1000.00</div>
+				</div>
+				<div class="item flex-row-between">
+					<div class="flex-column">
+						<span>转账转入</span>
+						<span class="colorAAA">2019-5-5 15:37:33</span>
+						<span class="colorAAA">来源用户:</span>
+					</div>
+					<div class="colorF4BB00">1000.00</div>
+				</div>-->
+				<!---->
+				
+				<div v-for="(item,index) in list">
+					<div class="item flex-row-between">
+						<div class="flex-column">
+							<span>{{titleType[item.type]}}</span>
+							<span class="colorAAA">{{item.addTime | formatDate}}</span>
+							<span class="colorAAA">来源用户:</span>
+						</div>
+						<div :class="item.status == 1?'colorF4BB00':'color1069A4'">{{item.status == 1?'+':'-'}}{{item.amount}}</div>
+					</div>
+				
+				</div>
+				<div class="footerNav flex-row-around">
+					<span @click="changePage(1)">首页</span>
+					<span @click="changePage(page-1)">上一页</span>
+					<!--<span>{{page}} / {{pageTotal}}</span>-->
+					<span @click="changePage(page+1)">下一页</span>
+					<span @click="changePage(pageTotal)">末页</span>
+				</div>
+			</div>
+		</div>	
+		<script src="js/mui.min.js"></script>
+		
+		<script src="./js/layIn.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+        	new Vue({
+		        el:'#walletDetails',
+		        data:{
+		        	token:get('token'),
+		        	amount:"",
+		        	
+		        	list:[],//列表数据
+		        	page:1,//页码
+		        	rows:10,//条数
+		        	type:2,//类型 	0支出 1收入 2全部
+		        	pageTotal:1,	
+		        	titleType:{ 
+		        		"1000":"预约消耗",
+		        		"1001":"赋能消耗",
+		        		"1002":"合约收益",
+		        		"1003":"推广收益",
+		        		"1004":"团队收益",
+		        		"1005":"兑换鲜花",
+		        		"1006":"养料转出",
+		        		"1007":"养料转入",
+		        		"1008":"预约失败回退",
+		        		"1009":"系统充值",
+		        		"1010":"系统减扣",
+		        		"1011":"HY转出",
+		        		"1012":"HY转入",
+		        	},//列表数据标题类型
+		        },
+		        filters: {
+			      formatDate: function (value) {
+			        let date = new Date(value);
+			        let y = date.getFullYear();
+			        let MM = date.getMonth() + 1;
+			        MM = MM < 10 ? ('0' + MM) : MM;
+			        let d = date.getDate();
+			        d = d < 10 ? ('0' + d) : d;
+			        let h = date.getHours();
+			        h = h < 10 ? ('0' + h) : h;
+			        let m = date.getMinutes();
+			        m = m < 10 ? ('0' + m) : m;
+			        let s = date.getSeconds();
+			        s = s < 10 ? ('0' + s) : s;
+			        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+			      }
+			    },
+		        methods:{
+		        	goto(){
+		        		mui.openWindow({
+							url:"./SetUp.html",
+							id:'SetUp'
+						})
+		        	},
+		        	//获取积分余额
+		        	getUserMsg(){
+						var that = this;
+						axios({
+		                    url:apqurl+'/api/user/userInfo',
+		                    method:'GET',
+		                    params:{
+		                        accessToken:that.token//"16D9A0180A776BFC53842256FC200A52"
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data
+		                    if(data.success){
+								that.amount = data.data.amount;
+							}
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+					},
+					// 切换搜索类型
+					changeType(id) {
+					    var type = id;
+					    if (this.type == type) {
+					      return;
+					    } else {
+					    	//切换搜索类型，重置搜索
+					        this.type= type,
+					        this.list= [],
+					        this.page= 1, // 分页参数
+					        this.rows= 10,
+					        this.getlist();
+					    }
+					},
+					getlist(){
+		        		var that = this;
+		        		axios({
+		                    url:apqurl+'/api/user/walletDataInfo',
+		                    method:'GET',
+		                    params:{
+		                        accessToken:that.token,//"16D9A0180A776BFC53842256FC200A52"
+		                        page:that.page,
+					        	rows:that.rows,
+					        	type:that.type,
+		                    }
+		                }).then(function(res){
+		                    console.log(res);
+		                    var data = res.data;
+		                    if(data.success){
+								that.list = data.data.items.rows;
+								that.pageTotal = Math.ceil(data.data.items.total/10);
+							}
+		                    else{
+		                    	mui.toast(data.message);
+		                    	return;
+		                    }
+		                }).catch(function(res){
+		                    console.log(res);
+		                });
+		        	},
+					//分页
+		        	changePage(page){
+		        		if(page>this.pageTotal || page<1){
+		        			return;
+		        		}
+		        		this.list= [],
+				        this.page= page, // 分页参数
+				        this.rows= 10,
+				        this.getlist();
+		        	}
+		        },
+		        created:function(){
+		        	this.getlist();
+					this.getUserMsg();
+				},
+				mounted:function(){
+		        	
+		        },
+				destoryed:function(){
+					
+				}
+		   });
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+		/* 布局 */
+		.flex-row{display: flex;flex-direction: row;}
+		.flex-row-center{display: flex;flex-direction: row;align-items: center;}
+		.flex-row-reverse{display: flex;flex-direction: row-reverse;align-items: center;}
+		.flex-row-between{display: flex;flex-direction: row;align-items: center;justify-content: space-between;}
+		.flex-row-around{display: flex;flex-direction: row;align-items: center;justify-content: space-around;}
+		.flex-row-wrap{display: flex;flex-direction: row;align-items: center;flex-wrap:wrap;}
+		.flex-column{display: flex;flex-direction: column;}
+		.flex-column-center{display: flex;flex-direction: column;align-items: center;}
+		.flex-vertical-centering{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+		
+		/* 宽 */
+		.w10{ width: 10%;}
+		.w20{ width: 20%;}
+		.w30{ width: 30%;}
+		.w35{ width: 35%;}
+		.w40{ width: 40%;}
+		.w50{ width: 50%;}
+		.w60{ width: 60%;}
+		.w70{ width: 70%;}
+		.w80{ width: 80%;}
+		.w90{ width: 90%;}
+		.w100{ width: 100%;}
+		
+		/*间距*/
+		.mt5{margin-top: 5px;}
+		.mt8{margin-top: 8px;}
+		.mt10{margin-top: 10px;}
+		.mt15{margin-top: 15px;}
+		.mt20{margin-top: 20px;}
+		.mt25{margin-top: 25px;}
+		.mt30{margin-top: 30px;}
+		.mt40{margin-top: 40px;}
+		.mt50{margin-top: 50px;}
+		.mt60{margin-top: 60px;}
+		.ml10{margin-left: 10px;}
+		
+		/*字体颜色*/
+		.colorWhite{color: white;}
+		
+		body{background-color: white;}
+		input{border: none; outline:none; background-color: rgba(255,255,255,0);}
+		
+		.mui-bar{
+		 -webkit-box-shadow: none;
+		 box-shadow: none;
+		 background: #48C9A7;
+		}
+		#head{
+			background-color: #1069A4;
+			color: white;
+		}
+		#head a{
+			color: white;
+		}
+		#head h1{
+			color: white;
+		}
+		/*.header{
+			background-color: #1069A4;
+			padding: 10px 10px;
+		}
+		.header>img{
+			width: 10px;
+		}*/
+		.main{
+			margin-top: 64px;
+			width: 92%;
+			margin-left: 4%;
+			font-size: 14px;
+		}
+		.main input{
+			width: 55%;
+			border:none;
+			margin-bottom:0;
+		}
+		.line{
+			padding: 10px 0;
+			border-bottom: 1px solid #CCCCCC;
+		}
+		.determine{
+			width: 92%;
+			margin-left: 4%;
+			margin-top: 30px;
+			color: white;
+			background-color: #1069A4;
+			text-align: center;
+			padding: 10px 0;
+			border-radius: 5px;
+		}
+		[v-cloak]{
+			display: none;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div id="addBankCard" v-cloak>
+			<header class="mui-bar mui-bar-nav" id="head">
+		        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+		        <h1 class="mui-title">添加银行卡</h1>
+		    </header>
+			<div class="main flex-column">
+				<div class="line w100 flex-row-center">
+					<span class="w30">标签：</span>
+					<input class="" type="text" v-model="remark" placeholder="请输入标示标签"/>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">银行名称：</span>
+					<input class="" type="text" v-model="bankName" placeholder=""/>
+					
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">银行卡姓名：</span>
+					<input class="" type="text" v-model='realName' placeholder="请输入银行卡姓名"/>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">银行卡账号：</span>
+					<input class="" type="number" v-model="account" placeholder="请再次银行卡账号"/>
+				</div>
+				<div class="line w100 flex-row-center">
+					<span class="w30">开户支行：</span>
+					<input class="" type="text" v-model='openingBank' placeholder="请再次开户支行"/>
+				</div>
+			</div>
+			<div class="determine" @tap='determine'>提交</div>
+		</div>
+		<script src="./js/jquery-1.11.2.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.min.js"></script>
+		<script src="./js/layIn.js"></script>
+		<script type="text/javascript">
+
+			
+	mui.init({
+		beforeback: function() {
+	　　　　 //获得父页面的webview
+	        // var list = plus.webview.currentWebview().opener();
+	　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+	        // mui.fire(list, 'refresh');
+	        //返回true,继续页面关闭逻辑
+            location.href="gathering.html";
+	        return true;
+	    }
+	});
+
+			new Vue({
+				el:'#addBankCard',
+				data:{
+					token:get('token'),
+					remark:'',//标签
+					bankName:'',//银行名称
+					realName:'',//持卡人姓名
+					account:'',//银行卡账号
+					openingBank:''//开户支行
+				},
+				methods:{
+					determine(){
+						var that = this;
+						if(that.remark.length == 0){
+							mui.toast('请输入标签！');
+							return false;
+						}
+						if(that.bankName.length == 0){
+							mui.toast('请输入银行名称！');
+							return false;
+						}
+						if(that.realName.length == 0){
+							mui.toast('请输入持卡人姓名！');
+							return false;
+						}
+						if(that.account.length == 0){
+							mui.toast('请输入银行卡账户！');
+							return false;
+						}
+						if(that.openingBank.length == 0){
+							mui.toast('请输入开户支行！');
+							return false;
+						}
+						$.ajax({
+							url:apqurl+'/api/user/addBank',
+							method:'POST',
+							data:{
+								accessToken:that.token,
+								remark:that.remark,
+								bankName:that.bankName,
+								realName:that.realName,
+								account:that.account,
+								openingBank:that.openingBank
+							},
+							success:function(dat){
+								console.log(dat);
+								if(dat.success){
+									mui.toast(dat.message);
+									setTimeout(function(){
+										// mui.openWindow({
+										// 	url:"./gathering.html",
+										// 	id:'gathering'
+										// })
+										// mui.back();
+										// Jump('gathering');
+										// plus.webview.currentWebview().hide();
+										// plus.webview.currentWebview().close();
+                                        location.href="gathering.html";
+									},1000);
+								}else{
+									mui.toast(dat.message);
+								}
+							}
+						})
+						// .then(function(res){
+						// 	var data = res.data
+						// 	if(data.success){
+						// 		that.label = '';
+						// 		that.subBranch = '';
+						// 		that.userName = '';
+						// 		that.bankNum = '';
+						// 		that.bankName = '';
+						// 	}
+						// 	mui.toast(data .message);
+						// }).catch(function(res){
+						// 	console.log(res);
+						// })
+					}
+				}
+			})
+
+			function plusReady() {
+				mui.plusReady(function(){
+					$(".back").click(function () {
+						console.log(111);
+						var self = plus.webview.currentWebview();
+						var opener = self.opener();
+						//此句调用父页面js
+						opener.evalJS('reloadData()');
+						self.close();
+					})
+				})
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+		</script>
+	</body>
+
+</html>

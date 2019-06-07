@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.css" rel="stylesheet" />
+	<title>公告</title>
+</head>
+<style type="text/css">
+	.mui-bar {
+		background: #1069a4 !important;
+	}
+
+	.mui-title {
+		color: #fff;
+	}
+
+	.notice-content {
+		margin: 57px 13px;
+		background: #fff;
+		min-height: 162px;
+		color: #cccccc;
+		padding: 19px 13px;
+		border-radius: 6px;
+	}
+	.breal-wrap{
+		word-wrap: break-word !important;
+	}
+	.cor-white {
+		color: #fff;
+	}
+</style>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+		<h1 class="mui-title">公告</h1>
+	</header>
+	<div id="notice" v-cloak>
+		<div class="notice-content" :class="brealWrap?'breal-wrap':''" v-html="content">
+			
+		</div>
+	</div>
+
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/mui.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/layIn.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#notice',
+			data: {
+				content: '',
+				brealWrap: false
+			},
+			created() {
+				this.initPage()
+			},
+			methods: {
+				// initPage
+				initPage() {
+
+					var id = getUrlParam("id")
+					var token = get('token')
+					var that = this;
+
+					axios({
+						url: apqurl + '/api/message/getMessage',
+						method: 'GET',
+						params: {
+							accessToken: token,
+							id: id
+						}
+					}).then(function (res) {
+						
+						var data = res.data;
+
+						if (data.success) {
+							that.content = data.data.content
+							// console.log(that.content );
+							that.brealWrap = true;
+						} else {
+							mui.toast(data.message)
+						}
+					}).catch(function (res) {
+						console.log(res);
+					})
+
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

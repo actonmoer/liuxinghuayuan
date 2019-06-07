@@ -1,0 +1,487 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>个人中心</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <link href="css/mui.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/nav.css"/>
+        <link rel="stylesheet" type="text/css" href="css/user.css">
+	</head>
+	<body>
+        <div class="user_mian" id="user" v-cloak>
+            <div class="sbeijing">
+                    <div class="head">
+                        <span class="heaer_title">个人中心</span>
+                        <span class="mui-icon mui-icon-gear chilun" @click="toheadleSet"></span>
+                    </div>
+                    <div class="user_conter">
+                            <!-- 用户详情 -->
+                    <div class="user_xiangqing">
+                                <div class="touxiang" @click="headleImg" :src="QRimg" id="QRCode" onclick="browerfile.click()">
+                                    <input type="file" style="display:none;" id="browerfile" @change="uploadFile" />
+                                    <div class="scImg">
+                                        <img :src="portrait || QRimg" alt="">
+                                    </div>
+                                </div>
+                                <div class="user_list">
+                                    <span><em class="user_list_name">{{realName}}</em >({{userStatus[activationState]}})({{states[activationState]}})</span>
+                                    <span><em class="user_list_id">ID/手机号:</em>{{userNo}}/{{userName}}</span>
+                                    <span><em class="user_list_id">团队数量:</em>{{teamCount}}人</span>
+                                    <span>管理级别:({{levelState[+userLevel].value}})</span>
+                                </div>
+                    </div>
+            
+                    <div class="hy_feiliao">
+                                <div class="hy">
+                                    <div class="lt_text">
+                                        <span>HY</span>
+                                        <span>{{amount | tofixed}}</span>
+                                    </div>
+                                    <div class="right_btn">
+                                        <div class="look" @click="zhuanchuHy">转出</div>
+                                        <div class="close" @click="headleHy">查看</div>
+                                    </div>
+                                </div>
+            
+                                <div class="hy">
+                                    <div class="lt_text">
+                                       <span>肥料</span>
+                                       <span>{{fertilizerAmount | tofixed}}</span>
+                                    </div>
+                                    <div class="right_btn">
+                                        <div class="look" @click="zhuanchuFl">转出</div>
+                                        <div class="close" @click="headleFl">查看</div>
+                                    </div>
+                                </div>
+                                
+                    </div>
+                            
+                    </div>
+            </div>
+            
+            
+            <div class="shuju">
+                    <ul class="sj_list">
+                        <li @click.stop="toheyue">
+                            <span class="sj_spans">{{contractProfit || 0}} </span>
+                            <div>
+                                <span >合约收益</span>
+                            </div>
+                        </li>
+                        <li @click.stop="totuiguang">
+                            <span class="sj_spans">{{generalizationProfit || 0}}</span>
+                           <div>
+                                <span >推广收益</span>
+                           </div>
+                        </li>
+                        <li @click.stop="totuandui">
+                            <span class="sj_spans">{{teamProfit || 0}}</span>
+                            <div>
+                                <span >团队收益</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            
+            <div class="gongneng">
+                <div class="ul_list">
+                    <ul class="ul_list_xz">
+                        <li><a href="javascript:;" @click="toCollectionRecords">
+                            <img src="./img/1@2x.png" alt="">
+                            <span>领取记录</span>
+                        </a></li>
+                        <li><a href="javascript:;" @click="toTransferRecord">
+                            <img src="./img/2@2x.png" alt="">
+                            <span>转让记录</span>
+                        </a></li>
+                        <li><a href="javascript:;" @click="toRecord">
+                            <img src="./img/3@2x.png" alt="">
+                            <span>预约记录</span>
+                        </a></li>
+                        <li><a href="javascript:;" @click="toInviteFriends">
+                            <img src="./img/4@2x.png" alt="">
+                            <span>邀请好友</span>
+                        </a></li>
+                        <li><a href="javascript:;" @click="toGathering">
+                            <img src="./img/5@2x.png" alt="">
+                            <span>收款账户</span>
+                        </a></li>
+                        <li><a href="javascript:;" @click="toService">
+                            <img src="./img/6@2x.png" alt="">
+                            <span>留言中心</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <nav class="nav">
+			    <div class="nav-item"  @click="toHome">
+			        <div><img src="img/shichang2@2x.png" /></div>
+			        <div>市场</div>
+			    </div>
+			    <div class="nav-item" @click="toGarden">
+			        <div><img src="img/hua@2x.png" /></div>
+			        <div>我的花园</div>
+			    </div>
+			    <div class="nav-item" style="color: #1069a4" @click="shuaxin">
+			        <div><img src="img/wode2@2x.png" /></div>
+			        <div>个人中心</div>
+			    </div>
+            </nav>
+            
+        </div>
+		
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/mui.js"></script>
+        <script src="./js/layIn.js"></script>
+        <script src="./js/axios.min.js"></script>
+		<script type="text/javascript">
+			new Vue({
+			    el:'#user',
+			    data:{
+                    userName:"", //用户姓名
+                    userLevel:"",//用户级别
+                    contractProfit:"",//合约收益
+                    generalizationProfit:"",//推广收益
+                    teamProfit:"",//团队收益
+                    activationState:"",  //状态
+                    fertilizerAmount:'',//肥料余额  
+                    teamCount:'',//团队人数teamCount
+                    portrait:'',//头像路径
+                    realName:'',//真是姓名
+                    userStatus:['普通会员','正式会员'],//会员
+                    userNo:"",
+                    amount:"",//推广积分余额
+                    token:'',
+                    isHide:false,
+                    ids:"",//用于存储跳转收款账户的id
+                    imgUrl:'',//图片base64
+		        	QRimg:'./img/addPicture@2x.png',//图片地址
+                    states:["未激活","已激活"],
+                    levelState:[
+                         {   
+                            type:0,
+                            value:"无级别"
+                        },
+                        {   type:1,
+                            value:"初级节点"
+                        },
+                        {   type:2,
+                            value:"高级节点"
+                        },
+                        {   type:3,
+                            value:"超级节点"
+                        },
+                    ]
+			    },
+                mounted(){
+                    this.token= get('token')
+                    this.userInfo();
+                    // console.log(this.token)
+//                  mui.plusReady(function(){
+//						plus.webview.currentWebview().opener().hide();
+//						plus.webview.currentWebview().opener().close();
+//						// var wvs = plus.webview.all();
+//						// console.log(wvs.length);
+//					})
+                },
+			    methods:{
+                    //获取个人中心数据
+                    userInfo(){
+                        var that=this;
+                        axios({
+                        url:apqurl+'/api/user/getPersonCenterInfo',
+                        method:'GET',
+                        params:{
+                            accessToken: that.token
+                        }
+                        }).then(function(res){
+                            const { data } =res.data
+                            console.log(data)
+                            that.realName=data.realName;
+                            console.log(that.realName)
+                            that.userName=data.userName;
+                            that.portrait=data.portrait;
+                            that.userNo=data.userNo;
+                            that.teamProfit=data.teamProfit;//团队收益
+                            that.userLevel=data.userLevel;//级别
+                            // that.userLevel=2;//级别
+                            that.fertilizerAmount=data.fertilizerAmount;
+                            // that.fertilizerAmount=999999;
+                            that.amount=data.amount;
+                            // that.amount=9999999;
+                            that.ids=data.id;
+                            that.contractProfit=data.contractProfit;
+                            that.generalizationProfit=data.generalizationProfit;
+                            that.activationState=data.activationState;
+                            // that.activationState=0;
+                            console.log(that.activationState)
+                            // that.userStatus=data.userStatus;//会员
+                            that.teamCount=data.teamCount;//团队人数
+                            // that.teamCount=10;//团队人数
+                            // console.log(that.teamCount)
+                        }).catch(function(res){
+                            // console.log(res);
+                        })
+                    },
+                    // 点击用户头像弹窗
+                    headleImg(){
+                        this.isShow=true
+                    },
+                   
+                    headleHide(){
+                        this.isShow=false;
+                    },
+                   
+                    // 获取用户修改的头像
+					getData(){
+                        var that=this;
+                        $.ajax({
+						url:apqurl+'/api/user/updatePortrait',
+						type:'POST',
+						data:{
+							accessToken: this.token,
+                            imageBase64:this.imgUrl,
+						},
+						success: function(dat) {
+							that.portrait=that.imgUrl;
+                            mui.toast('上传成功');
+                                //成功后重新请求数据，刷新页面
+                                // that.userInfo();
+                                setTimeout(function(){
+                                    that.userInfo();
+                                    // that.isShow=false;
+                                },1000)
+						}
+					})
+
+                    },
+                    //上传图片
+					uploadFile(e){
+						var that = this;
+						var dom = document.getElementById('browerfile');
+						var files = dom.files;
+						if(files.length != 0){
+							var objUrl = this.getObjectURL(files[0]);
+							if(objUrl){
+								this.QRimg = objUrl
+							}
+							var file = e.target.files[0];
+							var reader = new FileReader();
+							reader.readAsDataURL(file); // 读出 base64
+							reader.onloadend = function () {
+								// 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+								// 下面逻辑处理
+                                that.convert(reader.result)
+							};
+						}
+					},
+					getObjectURL(file) {
+						var url = null;
+						if (window.createObjectURL != undefined) {
+							url = window.createObjectURL(file); //basic
+						} else if (window.URL != undefined) {
+							url = window.URL.createObjectURL(file);
+						} else if (window.webkitURL != undefined) {
+							url = window.webkitURL.createObjectURL(file);
+						}
+						return url;
+					},
+                    //处理图片
+                    convert(img64) {
+                        var that=this;
+                        that.compress(img64,400, 0.5).then(function (val) {
+                           //console.log("2:"+val);
+                            // that.getImgSize(val);
+                            that.imgUrl=val;
+                            that.getData();
+                        });
+                    },
+                    compress(base64String, w, quality) {
+                            var getMimeType = function (urlData) {
+                                var arr = urlData.split(',');
+                                var mime = arr[0].match(/:(.*?);/)[1];
+                                // return mime.replace("image/", "");
+                                return mime;
+                            };
+                            var newImage = new Image();
+                            var imgWidth, imgHeight;
+                            var promise = new Promise(resolve => newImage.onload = resolve);
+                            newImage.src = base64String;
+                            return promise.then(() => {
+                                imgWidth = newImage.width;
+                                imgHeight = newImage.height;
+                                var canvas = document.createElement("canvas");
+                                var ctx = canvas.getContext("2d");
+                                if (Math.max(imgWidth, imgHeight) > w) {
+                                    if (imgWidth > imgHeight) {
+                                        canvas.width = w;
+                                        canvas.height = w * imgHeight / imgWidth;
+                                    } else {
+                                        canvas.height = w;
+                                        canvas.width = w * imgWidth / imgHeight;
+                                    }
+                                } else {
+                                    canvas.width = imgWidth;
+                                    canvas.height = imgHeight;
+                                }
+                                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                ctx.drawImage(newImage, 0, 0, canvas.width, canvas.height);
+                                var base64 = canvas.toDataURL(getMimeType(base64String), quality);
+                                // console.log(base64);
+                                return base64;
+                            });
+                        },
+                    getImgSize(str) {
+                            //获取base64图片大小，返回KB数字
+                            //这里根据自己上传图片的格式进行相应修改
+                            var strLength = str.length;
+                            var fileLength = parseInt(strLength - (strLength / 8) * 2);
+                            // 由字节转换为KB
+                            var size = "";
+                            size = (fileLength / 1024).toFixed(2);
+                            console.log(size);
+                        },
+                        //底部刷新
+                    shuaxin(){
+                        this.userInfo()
+                    },
+
+                    //跳转
+                    toHome(){
+						// mui.openWindow({
+						// 	url:'./home.html',
+						// 	id:'home'
+						// })
+                        location.href="home.html";
+					},
+                    toGarden(){
+						// mui.openWindow({
+						// 	url:'./myGarden.html',
+						// 	id:'myGarden'
+						// })
+                        location.href="myGarden.html";
+                    },
+                    toRecord(){
+                        // mui.openWindow({
+                        //     url:"./appointmentRecord.html?",
+                        //     id:'appointmentRecord'
+                        // })
+                        location.href="appointmentRecord.html";
+                    },
+                    toGathering(){
+                        location.href="gathering.html?ids="+this.ids;
+                        // mui.openWindow({
+                        //     url:"./gathering.html?ids="+this.ids,//传递id
+                        //     id:'gathering',
+                        // })
+                    },
+                    toCollectionRecords(){
+                        // mui.openWindow({
+                        //     url:"./CollectionRecords.html",
+                        //     id:'CollectionRecords'
+                        // })
+                        location.href="CollectionRecords.html";
+                    },
+                    toService(){
+                        // mui.openWindow({
+                        //     url:"./service.html",
+                        //     id:'service'
+                        // })
+                        location.href="service.html";
+                    },
+                    toInviteFriends(){
+                        // mui.openWindow({
+                        //     url:"./inviteFriends.html",
+                        //     id:'inviteFriends'
+                        // })
+                        location.href="inviteFriends.html";
+                    },
+                    toTransferRecord(){
+                        // mui.openWindow({
+                        //     url:"./TransferRecord.html",
+                        //     id:'TransferRecord'
+                        // })
+                        location.href="TransferRecord.html";
+                    },
+                    toheyue(){
+                        // mui.openWindow({
+                        //     url:"./TeamProfit.html",
+                        //     id:'TeamProfit'
+                        // })
+                        location.href="TeamProfit.html";
+                    },
+                    totuandui(){
+                        // mui.openWindow({
+                        //     url:"./ContracTrevenue.html",
+                        //     id:'ContracTrevenue'
+                        // })
+                        location.href="ContracTrevenue.html";
+                    },
+                    totuiguang(){
+                        // mui.openWindow({
+                        //     url:"./PromotionalBenefits.html",
+                        //     id:'PromotionalBenefits'
+                        // })
+                        location.href="PromotionalBenefits.html";
+                    },
+                    // 积分
+                    zhuanchuHy(){
+                        // mui.openWindow({
+                        //     url:"./HYTurnOut.html",
+                        //     id:'HYTurnOut'
+                        // })
+                        location.href="HYTurnOut.html";
+                    },
+                    zhuanchuFl(){
+                        // mui.openWindow({
+                        //     url:"./fertilizerTransfer.html",
+                        //     id:'fertilizerTransfer'
+                        // })
+                        location.href="fertilizerTransfer.html";
+                    },
+
+                    //设置页面
+                    toheadleSet(){
+                        // mui.openWindow({
+                        //     url:"./set.html",
+                        //     id:'set'
+                        // })
+                        location.href="set.html";
+                    },
+                    headleHy(){
+                        // mui.openWindow({
+                        //     url:"./walletDetails.html",
+                        //     id:'walletDetails'
+                        // })
+                        location.href="walletDetails.html";
+                    },
+                    headleFl(){
+                        // mui.openWindow({
+                        //     url:"./fertilizerDetails.html",
+                        //     id:'fertilizerDetails'
+                        // })
+                        location.href="fertilizerDetails.html";
+                    },
+
+                },
+                // 定义过滤器
+                filters: {
+                    // 给价格加上两位小数点
+                    // value是调用过滤器的值
+                    tofixed: function(value){
+                        // 保留两位小数点
+                        return Number(value).toFixed(2);
+                    }
+                }
+			})
+        </script>
+        <script ype="text/javascript">
+            window.addEventListener('refresh', function(e){//执行刷新
+			    location.reload();
+			});
+        </script>
+	</body>
+</html>

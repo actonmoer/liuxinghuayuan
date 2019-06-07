@@ -1,0 +1,375 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/publicHed.css" />
+		<link rel="stylesheet" href="css/mui.zoom.css">
+		<style>
+			.mui-bar-nav~.mui-content{
+				padding-top:0;
+			}
+			.heardTab{
+				display: flex;
+				justify-content: space-around;
+				background: #fff;
+				height: 3rem;
+				align-items: center;
+			}
+			.heardTab>div{
+				width: 50%;
+				text-align: center;	
+				line-height: 3rem;
+			}
+			.fontRed{
+				color: #ff2d4b;
+				border-bottom: 2px solid #ff2d4b;
+			}
+			textarea{
+				margin-bottom:0;
+			}
+			.msgInput {
+				width: 70%;
+				background: #eee;
+				height: 2.5rem;
+				border: none;
+				border-radius: 50px;
+				padding-left:10px;
+			}
+			
+			.sendbtn {
+				color: #fff;
+				background: #108EE9;
+				border: none;
+			}
+			.entry{
+				position: absolute;
+				display: flex;
+				justify-content: space-around;
+				width: 100%;
+				bottom: 0px;
+				align-items: center;
+				background: #fff;
+				height: 4rem;
+			}
+			.content {
+				position: absolute;
+				list-style: none;
+				width: 100%;
+				height: 80%;
+				margin: 5px auto;
+				overflow-y: scroll;
+				margin: 0;
+				padding: 0;
+				/* background: #fff; */
+				margin-top: 55px;
+			}
+			
+			.msgContent {
+				width: auto;
+				max-width: 250px;
+				height: auto;
+				word-break: break-all;
+				margin: 5px;
+				padding: 3px;
+				border-radius: 5px;
+			}
+			
+			.content .left {
+				float: left;
+				text-align: left;
+			}
+			
+			.content .right {
+				float: right;
+				text-align: right;
+			}
+			
+			li span {
+				max-width: 75%;
+				display: inline-block;
+				margin-right: .5rem;
+				vertical-align: middle;
+				text-align: left;
+				border-radius: 2px;
+			}
+			
+			.left span {
+				border: 1px solid #eee;
+				padding: 0 5px;
+				background: #fff;
+			}
+			
+			.content .right span {
+				background: steelblue;
+				padding: 0 5px;
+				color: #fff;
+			}
+			
+			.chat img {
+				width: 2rem;
+				height: 2rem;
+				border-radius: 50%;
+				vertical-align: middle;
+			}
+
+			nav img{
+				width: 1.5rem;
+			}
+
+			.subject{
+				margin-top: 1rem;
+			}
+			.box{
+				background: #fff;
+				width: 95%;
+				margin: auto;
+				/* height: 5rem; */
+				border-radius:5px; 
+			}
+			p{
+				margin-bottom: 0;
+			}
+			.box img{
+				width: 100%;
+				max-height: 5rem;
+			}
+			.boxContent{
+				display: flex;
+				align-items: center;
+				width: 95%;
+				margin: auto;
+				border-bottom: 1px solid #eee;
+			}
+			.boxImg{
+				width: 30%;
+			}
+			.btn{
+				float: right;
+				color: #fff;
+				padding-bottom: 5px;
+			}
+			.btn>div{
+				background: #ff2d4b;
+				width: 4rem;
+				text-align: center;
+				border-radius: 50px;
+			}
+			.boxTime{
+				display: flex;
+				justify-content: space-between;
+				font-size: 8px;
+				width: 95%;
+				margin: auto;
+				color: #999;
+			}
+			.deliverGoods{
+				display: none;
+			}
+			.boxMsg{
+				width: 80%;
+				margin-left: 10px;
+			}
+			.serviceImg{
+				border-radius: 0 !important;
+				max-width: 7rem;
+				min-width: 5rem;
+				min-height: 5rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav pubcun">
+			<button class="mui-action-back  mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-left-nav"></span>留言中心
+			</button>
+		</header>
+		<div class="mui-content">
+			<div class="bodyTab chat">
+				<ul id="content" class="content">
+					<!-- <li class="msgContent left"><img src="img/kefut.png" /> <span>hello?hello?hello?hello?hello?</span></li>
+					<li style="clear:both"></li>
+					<li class="msgContent right"><span>sdfasdsadfd fasd fasd fasdfasdfasdf</span><img src="img/logo.png" /></li>
+					<li style="clear:both"></li>
+					<li class="msgContent right"> <span>哈哈</span><img src="img/logo.png" /></li>
+					<li style="clear:both"></li> -->
+				</ul>
+				<div class="entry">
+					<input id="msg_input" class="msgInput" />
+					<div>
+						<!-- <img src="img/13-1@2x.png" onclick="browerfile.click()" />
+						<input type="file" class="upload" id="browerfile" style="display:none" /> -->
+					</div>
+					<button id="sendbtn" class="sendbtn">发送</button>
+				</div>
+			</div>
+
+		<script id="text" type="text/html">
+			{{each data as it i}}
+			<li class={{ if it.MsgType == 1 }} 'msgContent left' {{else}} 'msgContent right' {{/if}}>
+				{{ if it.MsgType == 1 }}
+						<img src='img/kefut.png' />
+						<span>{{it.Content}}</span> 
+				{{else}}
+						<span>{{it.Content}}</span>
+						<img src='{{it.Portrait}}' /> 
+				{{/if}}
+			</li>
+			<li style="clear:both"></li>
+			{{/each}}
+		</script>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/layIn.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script type="text/javascript">
+			mui.previewImage();
+			mui.plusReady(function() {
+				
+			})
+			var token = get('token');
+			var useImg = get('useImg');
+			var type = getUrlParam('type');
+			// $('header').hide();
+			// if(type != null){
+			// 	console.log(111);
+			// 	$('.heardTab').hide();
+			// 	$('header').show();
+			// 	$('nav').hide();
+			// 	$('.entry').css('bottom','0px');
+			// 	$('.content').css('height','90%');
+			// }else{
+			// 	$('header').hide();
+			// 	$('.heardTab').show();
+			// 	$('nav').show();
+			// 	$('.entry').css('bottom','50px');
+			// 	$('.content').css('height','70%');
+			// }
+			var uri = window.location.href;
+			// ObtainToken(uri, FollowUp);
+			// ObtainToken();
+			FollowUp();
+
+			// openPage('my','my');
+			// openPage('home','home');
+			// openPage('Recommend','Recommend');
+			// openPage('project','mall');
+
+			$(".heardTab>div").click(function () {
+				var index = $(this).index();
+				$(this).addClass("fontRed").siblings().removeClass("fontRed");
+				$(".mui-content>.bodyTab").eq(index).show().siblings(".bodyTab").hide();
+				if(index == 1){
+					deliverGoods();
+				}
+			})
+
+			function FollowUp() {
+				var token = get('token');
+				RecordAjax(token, useImg);
+			}
+
+
+			function RecordAjax(token, useImg) {
+				mui.ajax({
+					type: "get",
+					url: apqurl + "/api/user/messageList?accessToken=" + token,
+					async: true,
+					success: function(dat) {
+						console.log(dat);
+						//var dat = JSON.parse(dat);
+						dat.useImg = useImg;
+						var html = template('text', dat);
+						$('#content').html(html);
+						$("#content").children("li:last-child").get(0).scrollIntoView();
+					},
+					error: function(res) {
+						mui.toast(res.status);
+					}
+				});
+			}
+
+			// window.onload = function() {
+
+				var input = document.getElementById('msg_input'); //查找缓存
+				// $('.sendbtn').bind('click',function(){
+				// 	console.log(2222);
+				// })
+				document.getElementById('sendbtn').addEventListener('tap', function() {
+					var token = get('token');
+					console.log(1111);
+					sendMsg(token,'');
+				})
+
+				function sendMsg(token,imgUrl) {
+					var input = document.getElementById('msg_input'); //查找缓存
+					var ul = document.getElementById('content');
+					var val = '';
+					var ContentType ='';
+
+					//					var newLi = document.createElement('li');
+					//					newLi.innerHTML = '<span>' + input.value + '</span> <img src="img/logo.png" />';
+					//					newLi.className = 'msgContent right';
+					//					ul.appendChild(newLi);
+					//
+					//					var div = document.createElement('li');
+					//					div.style = 'clear:both';
+					//					ul.appendChild(div);
+					if(imgUrl == ''){
+						val = input.value;
+						ContentType = 1;
+					}else{
+						val = imgUrl;
+						ContentType = 2;
+					}
+					$.ajax({
+						type: "POST",
+						url: apqurl + '/api/user/leavMessage',
+						data: {
+							accessToken:token,
+							Message:val
+						},
+						async: true,
+						success: function(dat) {
+							RecordAjax(token, useImg);
+							//							var obj = JSON.parse(dat);
+							//							console.log(obj)
+							//							var array = obj.result.content;
+							//
+							//							var tmp = array;
+							//
+							//							console.log(tmp)
+							//
+							//							var newLi = document.createElement('li');
+							//							newLi.innerHTML = tmp;
+							//							newLi.className = 'msgContent left';
+							//							ul.appendChild(newLi);
+							//
+							//							var div = document.createElement('div');
+							//							div.style = 'clear:both';
+							//							ul.appendChild(div);
+							//							input.value = '';
+							//							newLi.scrollIntoView(); //将元素滚动到可见位置
+						},
+						error: function(res) {
+
+						}
+
+					});
+
+					input.value = '';
+					//					newLi.scrollIntoView(); //将元素滚动到可见位置
+
+				}
+			// }
+		</script>
+	</body>
+
+</html>

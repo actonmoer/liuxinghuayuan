@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/mui.min.css">
+    <title>团队收益</title>
+    <style>
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .mui-bar {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #0F69A4;
+    position:static;
+    }
+    .mui-bar a{
+        color:#fff;
+    }
+    .mui-title,span{
+        color:#f7f7f7;
+    }
+    .werop-top{
+        display:-webkit-flex;     
+    }
+    .weropa{
+        border:10px solid #EFEFF4;
+        background: white;
+        width: 50%;
+    }    
+    .weropa .buoots{
+        margin: auto;
+        width: 50%;
+        text-align: center;
+        padding: 10px;
+    }
+    .weropa .buoots li{
+        text-align: center;
+        padding: 10px;
+    }
+    .mui-pull-right{
+        
+        height: 42px;
+        line-height: 60px;
+        font-size: 23px;
+        font-weight:600;
+        color:#0F69A4;
+   }
+   
+    .btn-anlui{
+        width: 100%;
+        padding: 10px;
+        
+        background: white;
+    }
+    .btn-anlui .button-y{
+    text-align: center;
+    }
+    .btn-anlui .button-y button{
+        line-height: 20px;
+     
+       
+        font-weight:700;
+        color:#0F69A4;
+        font-size: 14px;
+        border: 2px solid #0F69A4;
+    }
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav" id="head">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">团队收益</h1>
+	</header>
+	<div id="team" v-cloak>
+		<div class="werop-top">
+		    <div class="weropa">
+		        <ul class="buoots">{{info.profit}}
+		            <p>合约收益</p>
+		        </ul>
+		    </div>
+		    <div class="weropa">
+		        <ul class="buoots">{{info.totalProfit}}
+		            <p>累计收益</p>
+		        </ul>
+		    </div>      
+		</div>
+		
+		<div class="mui-card-content">
+		    <ul class="mui-table-view">
+		        <li class="mui-table-view-cell mui-media" v-for="(item,key) in list">
+		            <a href="javascript:;"> 
+		                <div class=" mui-pull-right clour" >{{item.amount}}</div>
+		                <div class="mui-media-body">
+		                    <p class="mui-ellipsis">会员名称：{{item.userNo}}</p>
+		                    <p class="mui-ellipsis">类型：团队收益</p>
+		                    <p class="mui-ellipsis">时间：{{dateFormat(item.addTime,'yyyy-MM-dd hh:mm:ss')}}</p>
+		                </div>
+		            </a>
+		        </li>
+		        
+		    </ul>     
+		</div>
+		<div class="btn-anlui">
+		    <div class="button-y">
+		            <button type="button" class="mui-btn" @click="getInfo(1)">首页</button>
+		            <button type="button" class="mui-btn" @click="previous">上一页</button>
+		            <button type="button" class="mui-btn" @click="next">下一页</button>
+		            <button type="button" class="mui-btn" @click="tail">尾页</button>
+		    </div>      
+		</div>
+	</div>	
+    
+</body>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/mui.min.js"></script>
+<script src="js/layIn.js" type="text/javascript" charset="utf-8"></script>
+<script src="./js/vue.js"></script>
+<script>
+   new Vue({
+		el:'#team',
+		data:{
+			token:'',
+			list:[],
+			info:{},
+			pages:1,   
+			totalPage:1   //总页数
+		},
+		created() {
+			var that =this;
+			that.token = get('token');
+			that.getInfo(1)
+		},
+		methods:{
+			getInfo(page){
+				var that = this;
+				mui.ajax({
+					type:'get',
+					url:apqurl+'/api/user/contractProfit',
+					data:{
+						accessToken:that.token,
+						type:2,
+						page:page,
+						rows:10
+					},
+					success:function(res){
+						console.log(res)
+						var data = res.data;
+						that.info = data;
+						that.list = data.list.rows;
+						that.totalPage = Math.ceil(data.list.total/10)
+						console.log(that.totalPage)
+					},
+					error:function(err){
+						console.log(err)
+					}
+				})
+			},
+			previous(){
+				var that =this
+				if(that.pages <=1){
+					return
+				}else{
+					that.pages--
+					that.getInfo(that.pages)
+				}
+			},
+			next(){
+				var that = this;
+				if(that.pages >= that.totalPage){
+					return
+				}else{
+					that.pages++
+					that.getInfo(that.pages)
+				}
+			},
+			tail(){
+				console.log(this.totalPage)
+				this.getInfo(this.totalPage)
+			},
+			dateFormat(date, format) {
+				date = new Date(date);
+				var map = {
+					"M": date.getMonth() + 1, //月份
+					"d": date.getDate(), //日
+					"h": date.getHours(), //小时
+					"m": date.getMinutes(), //分
+					"s": date.getSeconds(), //秒
+					"q": Math.floor((date.getMonth() + 3) / 3), //季度
+					"S": date.getMilliseconds() //毫秒
+				};
+				format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+					var v = map[t];
+					if (v !== undefined) {
+						if (all.length > 1) {
+							v = '0' + v;
+							v = v.substr(v.length - 2);
+						}
+						return v;
+					} else if (t === 'y') {
+						return (date.getFullYear() + '').substr(4 - all.length);
+					}
+					return all;
+				});
+				return format;
+			}
+		}
+   })
+</script>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href="css/mui.css" rel="stylesheet" />
+  <title>公告列表</title>
+</head>
+<style type="text/css">
+  .mui-bar {
+    background: #1069a4 !important;
+  }
+
+  .mui-title {
+    color: #fff;
+  }
+
+  .notice-list-content {
+    margin-top: 44px;
+    font-size: 14px;
+    overflow: hidden;
+  }
+
+  .notice-list-content-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 10px;
+    height: 88px;
+    padding: 10px 14px 14px 15px;
+    background-color: #fff;
+  }
+
+  .item-title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .item-title-text {
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .check-btn {
+    width: 53px;
+    height: 25px;
+    background-color: #1069a4;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 6px;
+    color: #fff;
+  }
+
+  .create-time {
+    font-size: 12px;
+  }
+
+  .cor-white {
+    color: #fff;
+  }
+</style>
+
+<body>
+  <header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left cor-white"></a>
+    <h1 class="mui-title">公告列表</h1>
+  </header>
+  <div class="notice-list-content" id="noticeList" v-cloak>
+    <div class="notice-list-content-item" v-for="(item,index) in noticeLists" :key="index">
+      <div class="item-title">
+        <div class="item-title-text">{{item.title}}</div>
+        <div class="check-btn" @click="handleClickCheckBtn(item.id)">查看</div>
+      </div>
+      <div class="create-time">
+        创建时间: 2019-4-22
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/mui.js"></script>
+  <script src="./js/axios.min.js"></script>
+  <script src="./js/layIn.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#noticeList',
+      data: {
+        noticeLists: []
+      },
+      mounted() {
+        this.initPage();
+
+      },
+      methods: {
+        // init Page
+        initPage() {
+          var that = this;
+          var token = get('token');
+
+          axios({
+            url: apqurl + '/api/message/getMessageList',
+            method: 'GET',
+            params: {
+              msgType: "0",
+              accessToken: token
+            }
+          }).then(function (res) {
+            var data = res.data;
+
+            if (data.success) {
+              that.noticeLists = data.data
+
+            } else {
+              mui.toast(data.message)
+            }
+          }).catch(function (res) {
+            console.log(res);
+          })
+
+        },
+        // 点击 查看 按钮 
+        handleClickCheckBtn(id) {
+
+          mui.openWindow({
+            url: 'notice.html?id=' + id,
+          })
+
+        }
+
+      }
+    })
+  </script>
+</body>
+
+</html>
